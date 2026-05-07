@@ -4,160 +4,161 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Dahira Sokhna Diarra</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green:#1A6B3C; --green-mid:#2E8B57; --green-light:#D6F0E0;
-  --gold:#C9A84C; --gold-light:#F5EDD4;
-  --red:#C0392B; --red-light:#FDECEA;
-  --bg:#F7F5F0; --card:#FFFFFF; --text:#1A1A1A; --muted:#6B7280;
-  --border:#E5E0D8;
+  --g1:#0D4A26; --g2:#1A6B3C; --g3:#2E8B57; --gl:#D6F0E0; --gs:#F0FAF4;
+  --gold:#B8860B; --gold-l:#FDF6E3;
+  --red:#B22222; --red-l:#FFF0F0;
+  --bg:#FAFAF7; --white:#FFFFFF;
+  --t1:#111; --t2:#444; --t3:#888;
+  --border:#E8E4DC; --shadow:rgba(0,0,0,0.06);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden}
 
-/* HEADER */
-header{background:var(--green);color:white;padding:20px 24px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;box-shadow:0 4px 20px rgba(26,107,60,0.25)}
-header h1{font-family:'Playfair Display',serif;font-size:1.4rem}
-header p{font-size:0.78rem;opacity:0.8;margin-top:2px}
-.hbadges{display:flex;gap:8px;flex-wrap:wrap}
-.hbadge{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:6px 14px;text-align:center;cursor:pointer;transition:.2s}
-.hbadge:hover{background:rgba(255,255,255,0.25)}
-.hbadge .hl{font-size:0.65rem;opacity:.75;text-transform:uppercase;letter-spacing:1px}
-.hbadge .hv{font-size:1rem;font-weight:700;margin-top:1px}
+/* ── TOAST ── */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:#111;color:#fff;padding:11px 22px;border-radius:30px;font-size:.83rem;font-weight:500;z-index:9999;transition:.35s cubic-bezier(.4,0,.2,1);opacity:0;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* NAV */
-nav{background:white;border-bottom:2px solid var(--border);display:flex;padding:0 24px;overflow-x:auto}
-nav button{background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;color:var(--muted);padding:12px 18px;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.2s;white-space:nowrap}
-nav button.active{color:var(--green);border-bottom-color:var(--gold);font-weight:600}
-nav button:hover:not(.active){color:var(--text)}
+/* ── LOADING ── */
+#loader{position:fixed;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--g2),var(--gold));z-index:9999;transition:opacity .5s}
+#loader.done{opacity:0}
 
-/* MAIN */
-main{max-width:1400px;margin:0 auto;padding:22px 16px 60px}
+/* ── HEADER ── */
+header{background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 60%,var(--g3) 100%);color:#fff;padding:18px 24px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;box-shadow:0 4px 24px rgba(13,74,38,.35)}
+.h-brand h1{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;letter-spacing:.3px;line-height:1.1}
+.h-brand p{font-size:.73rem;opacity:.7;margin-top:2px;letter-spacing:.5px;text-transform:uppercase}
+.h-badges{display:flex;gap:8px;flex-wrap:wrap}
+.hbadge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:7px 14px;cursor:pointer;transition:.2s;text-align:center;min-width:90px}
+.hbadge:hover{background:rgba(255,255,255,.22)}
+.hbadge .hl{font-size:.62rem;opacity:.7;text-transform:uppercase;letter-spacing:1.2px}
+.hbadge .hv{font-size:1.05rem;font-weight:700;margin-top:1px}
 
-/* LOADING */
-#loadingBar{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--gold);z-index:999;transition:opacity .5s;animation:loadpulse 1s infinite}
-@keyframes loadpulse{0%{opacity:1}50%{opacity:.4}100%{opacity:1}}
-#loadingBar.done{opacity:0;pointer-events:none}
+/* ── NAV ── */
+nav{background:var(--white);border-bottom:1.5px solid var(--border);display:flex;padding:0 20px;overflow-x:auto;gap:0;box-shadow:0 1px 8px var(--shadow)}
+nav button{background:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:.84rem;font-weight:500;color:var(--t3);padding:13px 18px;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:.2s;white-space:nowrap}
+nav button.active{color:var(--g2);border-bottom-color:var(--gold);font-weight:600}
+nav button:hover:not(.active){color:var(--t1)}
 
-/* TOAST */
-#toast{position:fixed;bottom:24px;right:24px;background:#1A1A1A;color:white;padding:12px 20px;border-radius:10px;font-size:0.85rem;z-index:999;opacity:0;transform:translateY(10px);transition:.3s;pointer-events:none}
-#toast.show{opacity:1;transform:translateY(0)}
+/* ── MAIN ── */
+main{max-width:1440px;margin:0 auto;padding:22px 16px 70px}
 
-/* TOOLBAR */
+/* ── TOOLBAR ── */
 .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
-.search-box{flex:1;min-width:180px;display:flex;align-items:center;gap:8px;background:white;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;transition:.2s}
-.search-box:focus-within{border-color:var(--green)}
-.search-box input{border:none;outline:none;font-family:inherit;font-size:0.88rem;width:100%;background:transparent}
-.year-select{background:white;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:0.88rem;cursor:pointer;outline:none}
-.year-select:focus{border-color:var(--green)}
-.btn{background:var(--green);color:white;border:none;border-radius:8px;padding:9px 16px;font-family:inherit;font-size:0.85rem;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;white-space:nowrap}
-.btn:hover{background:var(--green-mid)}
-.btn.gold{background:var(--gold)}.btn.gold:hover{background:#b8932f}
-.btn.outline{background:white;color:var(--green);border:1.5px solid var(--green)}.btn.outline:hover{background:var(--green-light)}
-.btn.red{background:var(--red)}.btn.red:hover{background:#a93226}
+.search-wrap{flex:1;min-width:180px;position:relative}
+.search-wrap input{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px 9px 38px;font-family:inherit;font-size:.88rem;outline:none;transition:.2s;color:var(--t1)}
+.search-wrap input:focus{border-color:var(--g2);box-shadow:0 0 0 3px rgba(26,107,60,.08)}
+.search-wrap::before{content:'🔍';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:.85rem;pointer-events:none}
+.yr-sel{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:9px 13px;font-family:inherit;font-size:.88rem;color:var(--t1);cursor:pointer;outline:none;transition:.2s}
+.yr-sel:focus{border-color:var(--g2)}
 
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
-.stat-card{background:white;border-radius:10px;padding:14px 16px;border:1.5px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,0.04)}
-.stat-card .sl{font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:5px}
-.stat-card .sv{font-size:1.5rem;font-weight:700;color:var(--green)}
-.stat-card .ss{font-size:0.74rem;color:var(--muted);margin-top:2px}
-.stat-card.gold-c .sv{color:var(--gold)}
-.stat-card.red-c  .sv{color:var(--red)}
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;border:none;border-radius:10px;padding:9px 16px;font-family:inherit;font-size:.84rem;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn-green{background:var(--g2);color:#fff}.btn-green:hover{background:var(--g3)}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:#9a6f00}
+.btn-outline{background:var(--white);color:var(--g2);border:1.5px solid var(--g2)}.btn-outline:hover{background:var(--gl)}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#8b1a1a}
+.btn-ghost{background:none;color:var(--t3);border:1.5px solid var(--border);border-radius:8px;padding:5px 10px;font-family:inherit;font-size:.75rem;cursor:pointer;transition:.2s}.btn-ghost:hover{border-color:var(--g2);color:var(--g2)}
 
-/* TABLE */
-.table-wrap{overflow-x:auto;border-radius:12px;border:1.5px solid var(--border);background:white;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
-table{width:100%;border-collapse:collapse;font-size:0.82rem}
-thead th{background:var(--green);color:white;padding:10px 8px;text-align:center;font-weight:600;font-size:0.75rem;letter-spacing:.3px;white-space:nowrap;position:sticky;top:0;z-index:2}
-thead th.th-name{text-align:left;padding-left:16px;min-width:160px}
-thead th.th-m{width:40px}
-tbody tr{border-bottom:1px solid var(--border);transition:.1s}
+/* ── STAT CARDS ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px}
+.sc{background:var(--white);border-radius:12px;padding:14px 16px;border:1.5px solid var(--border);box-shadow:0 2px 8px var(--shadow)}
+.sc .sl{font-size:.66rem;text-transform:uppercase;letter-spacing:1.1px;color:var(--t3);margin-bottom:5px}
+.sc .sv{font-size:1.55rem;font-weight:700;color:var(--g2);line-height:1}
+.sc .ss{font-size:.72rem;color:var(--t3);margin-top:3px}
+.sc.gold .sv{color:var(--gold)}.sc.red .sv{color:var(--red)}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;border-radius:14px;border:1.5px solid var(--border);background:var(--white);box-shadow:0 2px 12px var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+thead th{background:var(--g1);color:#fff;padding:10px 7px;text-align:center;font-weight:600;font-size:.73rem;letter-spacing:.4px;white-space:nowrap;position:sticky;top:0;z-index:3}
+thead th.th-n{text-align:left;padding-left:16px;min-width:165px;position:sticky;left:0;z-index:4}
+thead th.th-m{width:38px}
+tbody tr{border-bottom:1px solid var(--border);transition:.12s}
+tbody tr:hover{background:var(--gs)}
 tbody tr:last-child{border-bottom:none}
-tbody tr:hover{background:var(--green-light)}
 tbody td{padding:8px 6px;text-align:center;vertical-align:middle}
-tbody td.td-name{text-align:left;padding-left:16px;font-weight:600;font-size:0.86rem;white-space:nowrap}
-tbody td.td-name small{display:block;font-weight:400;color:var(--muted);font-size:0.72rem}
-tbody td.td-tot{font-weight:700;color:var(--green)}
+tbody td.td-n{text-align:left;padding-left:16px;font-weight:600;font-size:.85rem;white-space:nowrap;position:sticky;left:0;background:inherit;z-index:1}
+tbody td.td-n small{display:block;font-weight:400;color:var(--t3);font-size:.7rem;margin-top:1px}
+tbody td.td-tot{font-weight:700;color:var(--g2)}
 
-/* MONTH BTN */
-.mb{width:30px;height:26px;border-radius:5px;border:1.5px solid var(--border);background:#F3F4F6;cursor:pointer;font-size:0;transition:.15s;display:inline-flex;align-items:center;justify-content:center;color:var(--muted);position:relative}
-.mb.paid{background:var(--green-light);border-color:#7ecba0;font-size:0.85rem}
-.mb:hover{transform:scale(1.15);box-shadow:0 2px 6px rgba(0,0,0,0.12)}
-.mb.saving{opacity:.5;pointer-events:none}
+/* ── MONTH BTN ── */
+.mb{width:28px;height:25px;border-radius:5px;border:1.5px solid var(--border);background:#F4F4F2;cursor:pointer;font-size:0;transition:.15s;display:inline-flex;align-items:center;justify-content:center;color:var(--t3)}
+.mb.paid{background:var(--gl);border-color:#6dba8e;color:var(--g2);font-size:.82rem;font-weight:700}
+.mb:hover{transform:scale(1.18);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.mb:active{transform:scale(.95)}
+.mb.saving{opacity:.4;pointer-events:none}
 
-/* STATUS */
-.sbadge{padding:3px 9px;border-radius:20px;font-size:0.72rem;display:inline-block;font-weight:600}
-.s-ok{background:var(--green-light);color:var(--green)}
-.s-par{background:var(--gold-light);color:#9a6c00}
-.s-no{background:#F3F4F6;color:var(--muted)}
+/* ── STATUS ── */
+.sbadge{padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:600;display:inline-block}
+.s-ok{background:var(--gl);color:var(--g1)}
+.s-par{background:var(--gold-l);color:#7a5c00}
+.s-no{background:#F3F4F6;color:var(--t3)}
 
-/* MODAL */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;align-items:center;justify-content:center;padding:16px}
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
 .overlay.open{display:flex}
-.modal{background:white;border-radius:14px;padding:26px 24px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:su .25s ease}
-@keyframes su{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-.modal h2{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:18px;color:var(--green)}
+.modal{background:var(--white);border-radius:16px;padding:28px 24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.18);animation:modalIn .28s cubic-bezier(.34,1.56,.64,1)}
+@keyframes modalIn{from{transform:scale(.92) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.modal h2{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--g1);margin-bottom:20px}
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .fg .full{grid-column:1/-1}
-label{display:block;font-size:0.75rem;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
-input[type=text],input[type=tel],input[type=number],select{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 11px;font-family:inherit;font-size:0.88rem;outline:none;transition:.2s;background:var(--bg)}
-input:focus,select:focus{border-color:var(--green);background:white}
-.mact{display:flex;gap:8px;margin-top:18px;justify-content:flex-end}
+.flabel{display:block;font-size:.72rem;font-weight:600;color:var(--t3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.6px}
+.finput{width:100%;border:1.5px solid var(--border);border-radius:9px;padding:9px 12px;font-family:inherit;font-size:.88rem;outline:none;transition:.2s;background:var(--bg);color:var(--t1)}
+.finput:focus{border-color:var(--g2);background:var(--white);box-shadow:0 0 0 3px rgba(26,107,60,.07)}
+.mact{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
 
-/* CASSA */
+/* ── CASSA ── */
 .cassa-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-@media(max-width:650px){.cassa-grid{grid-template-columns:1fr}}
-.ccard{background:white;border-radius:12px;border:1.5px solid var(--border);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
-.ccard-h{padding:12px 16px;font-weight:700;font-size:0.88rem;display:flex;align-items:center;justify-content:space-between}
-.ccard-h.e{background:var(--green);color:white}
-.ccard-h.u{background:var(--red);color:white}
-.clist{list-style:none;max-height:340px;overflow-y:auto}
-.clist li{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;border-bottom:1px solid var(--border);font-size:0.83rem}
+@media(max-width:660px){.cassa-grid{grid-template-columns:1fr}}
+.ccard{background:var(--white);border-radius:14px;border:1.5px solid var(--border);overflow:hidden;box-shadow:0 2px 10px var(--shadow)}
+.ccard-h{padding:13px 18px;font-weight:700;font-size:.88rem;display:flex;align-items:center;justify-content:space-between;letter-spacing:.3px}
+.ch-e{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff}
+.ch-u{background:linear-gradient(135deg,#8b1a1a,var(--red));color:#fff}
+.clist{list-style:none;max-height:320px;overflow-y:auto}
+.clist li{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;border-bottom:1px solid var(--border);font-size:.82rem;gap:8px}
 .clist li:last-child{border-bottom:none}
-.clist li .cd{color:var(--muted);font-size:0.72rem;margin-top:1px}
-.clist li .ca{font-weight:700}
-.ca.e{color:var(--green)}.ca.u{color:var(--red)}
-.ctot{padding:11px 16px;font-weight:700;font-size:0.9rem;background:var(--bg);display:flex;justify-content:space-between;border-top:2px solid var(--border)}
-.cadd{display:flex;gap:6px;padding:9px 16px;border-top:1px solid var(--border);flex-wrap:wrap}
-.cadd input{flex:1;min-width:70px;padding:6px 9px;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:0.8rem;outline:none}
-.cadd input:focus{border-color:var(--green)}
-.cadd button{padding:6px 12px;border:none;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:600;font-size:0.8rem;color:white}
-.cadd button.ae{background:var(--green)}.cadd button.au{background:var(--red)}
-.saldo-box{background:var(--green);color:white;border-radius:12px;padding:20px 24px;grid-column:1/-1;display:flex;justify-content:space-between;align-items:center}
-.saldo-box .sv2{font-family:'Playfair Display',serif;font-size:1.8rem}
-.stitle{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:14px;color:var(--green);display:flex;align-items:center;gap:10px}
+.clist li:hover{background:var(--gs)}
+.c-desc{flex:1;min-width:0}
+.c-desc .cd{color:var(--t3);font-size:.7rem;margin-top:1px}
+.c-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.ca{font-weight:700}.ca.e{color:var(--g2)}.ca.u{color:var(--red)}
+.cdel{background:none;border:none;cursor:pointer;color:var(--t3);font-size:.8rem;padding:2px 5px;border-radius:4px;transition:.15s}.cdel:hover{color:var(--red);background:var(--red-l)}
+.clist-empty{padding:24px;text-align:center;color:var(--t3);font-size:.83rem}
+.cadd{display:flex;gap:6px;padding:10px 14px;border-top:1.5px solid var(--border);flex-wrap:wrap;background:var(--gs)}
+.cadd input{flex:1;min-width:65px;padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.79rem;outline:none;background:var(--white)}
+.cadd input:focus{border-color:var(--g2)}
+.cadd button{padding:7px 13px;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.79rem;color:#fff;transition:.2s}
+.cadd .ae{background:var(--g2)}.cadd .ae:hover{background:var(--g3)}
+.cadd .au{background:var(--red)}.cadd .au:hover{background:#8b1a1a}
+.ctot{padding:11px 18px;font-weight:700;font-size:.88rem;background:var(--gs);display:flex;justify-content:space-between;border-top:2px solid var(--border)}
+.saldo-box{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;border-radius:14px;padding:22px 28px;grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(13,74,38,.3)}
+.saldo-box .sb-label{font-size:.72rem;opacity:.75;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:4px}
+.saldo-box .sb-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700}
+.stitle{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--g1);margin-bottom:16px;display:flex;align-items:center;gap:12px;font-weight:600}
 .stitle::after{content:'';flex:1;height:1px;background:var(--border)}
 .hidden{display:none!important}
 
-/* SETUP SCREEN */
-#setupScreen{max-width:600px;margin:60px auto;background:white;border-radius:16px;padding:40px;border:1.5px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.08);text-align:center}
-#setupScreen h2{font-family:'Playfair Display',serif;color:var(--green);font-size:1.5rem;margin-bottom:12px}
-#setupScreen p{color:var(--muted);margin-bottom:24px;font-size:0.9rem;line-height:1.6}
-#setupScreen textarea{width:100%;height:100px;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-family:monospace;font-size:0.8rem;resize:vertical;outline:none;margin-bottom:14px}
-#setupScreen textarea:focus{border-color:var(--green)}
+/* ── SECTION FILTER ── */
+.filter-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.pill{background:var(--white);border:1.5px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.78rem;font-weight:500;cursor:pointer;transition:.2s;color:var(--t2)}
+.pill.active{background:var(--g2);color:#fff;border-color:var(--g2)}
+.pill:hover:not(.active){border-color:var(--g2);color:var(--g2)}
 </style>
 </head>
 <body>
 
-<div id="loadingBar"></div>
+<div id="loader"></div>
 <div id="toast"></div>
 
-<!-- SETUP (mostrato solo se non c'è il DB configurato) -->
-<div id="setupScreen" class="hidden">
-  <h2>🕌 Dahira Sokhna Diarra</h2>
-  <p>Incolla qui il tuo <strong>SQL di setup</strong> copiato da Supabase per inizializzare il database la prima volta.</p>
-  <textarea id="sqlBox" placeholder="Incolla l'SQL qui..."></textarea>
-  <button class="btn" style="margin:0 auto" onclick="runSetupSQL()">▶ Esegui Setup</button>
-</div>
-
-<!-- HEADER -->
-<header id="appHeader" class="hidden">
-  <div>
+<header>
+  <div class="h-brand">
     <h1>🕌 Dahira Sokhna Diarra</h1>
-    <p>Registro Quote & Cassa — Fano / Marotta</p>
+    <p>Registro Quote & Cassa · Fano / Marotta</p>
   </div>
-  <div class="hbadges">
+  <div class="h-badges">
     <div class="hbadge" onclick="showTab('cassa')">
       <div class="hl">Saldo Cassa</div>
       <div class="hv" id="hSaldo">…</div>
@@ -169,38 +170,44 @@ input:focus,select:focus{border-color:var(--green);background:white}
   </div>
 </header>
 
-<nav id="appNav" class="hidden">
+<nav>
   <button class="active" onclick="showTab('membri')">👥 Registro Membri</button>
   <button onclick="showTab('cassa')">💰 Entrate & Uscite</button>
 </nav>
 
-<main id="appMain" class="hidden">
+<main>
 
 <!-- TAB MEMBRI -->
 <div id="tab-membri">
   <div class="toolbar">
-    <div class="search-box">
-      <span>🔍</span>
+    <div class="search-wrap">
       <input type="text" id="searchInput" placeholder="Cerca nome o cognome…" oninput="renderTable()">
     </div>
-    <select class="year-select" id="yearSelect" onchange="renderTable()">
+    <select class="yr-sel" id="yearSelect" onchange="renderTable()">
       <option value="2022">2022</option><option value="2023">2023</option>
       <option value="2024">2024</option><option value="2025" selected>2025</option>
       <option value="2026">2026</option><option value="2027">2027</option>
       <option value="2028">2028</option><option value="2029">2029</option>
       <option value="2030">2030</option>
     </select>
-    <button class="btn" onclick="openAddMember()">＋ Membro</button>
-    <button class="btn outline" onclick="exportCSV()">⬇ CSV</button>
+    <button class="btn btn-green" onclick="openAddMember()">＋ Membro</button>
+    <button class="btn btn-outline" onclick="exportCSV()">⬇ CSV</button>
   </div>
 
-  <div class="stats-row" id="statsRow"></div>
+  <div class="filter-pills">
+    <div class="pill active" onclick="setFilter('tutti',this)">Tutti</div>
+    <div class="pill" onclick="setFilter('completo',this)">✅ Completo</div>
+    <div class="pill" onclick="setFilter('parziale',this)">⏳ Parziale</div>
+    <div class="pill" onclick="setFilter('zero',this)">❌ Non pagato</div>
+  </div>
 
-  <div class="table-wrap">
+  <div class="stats" id="statsRow"></div>
+
+  <div class="tbl-wrap">
     <table>
       <thead>
         <tr>
-          <th class="th-name">Nome & Cognome</th>
+          <th class="th-n">Nome & Cognome</th>
           <th class="th-m">Gen</th><th class="th-m">Feb</th><th class="th-m">Mar</th>
           <th class="th-m">Apr</th><th class="th-m">Mag</th><th class="th-m">Giu</th>
           <th class="th-m">Lug</th><th class="th-m">Ago</th><th class="th-m">Set</th>
@@ -216,363 +223,306 @@ input:focus,select:focus{border-color:var(--green);background:white}
 <!-- TAB CASSA -->
 <div id="tab-cassa" class="hidden">
   <p class="stitle">Riepilogo Cassa</p>
-  <div class="stats-row">
-    <div class="stat-card"><div class="sl">Totale Entrate</div><div class="sv" id="totE">…</div></div>
-    <div class="stat-card red-c"><div class="sl">Totale Uscite</div><div class="sv" id="totU">…</div></div>
-    <div class="stat-card gold-c"><div class="sl">Saldo Disponibile</div><div class="sv" id="saldoC">…</div></div>
+  <div class="stats" style="margin-bottom:22px">
+    <div class="sc"><div class="sl">Totale Entrate</div><div class="sv" id="totE">…</div></div>
+    <div class="sc red"><div class="sl">Totale Uscite</div><div class="sv" id="totU">…</div></div>
+    <div class="sc gold"><div class="sl">Saldo Disponibile</div><div class="sv" id="saldoC">…</div></div>
   </div>
   <div class="cassa-grid">
     <div class="ccard">
-      <div class="ccard-h e"><span>📥 Entrate</span></div>
+      <div class="ccard-h ch-e"><span>📥 Entrate</span><span id="totEh" style="font-size:.85rem;opacity:.85"></span></div>
       <ul class="clist" id="entraList"></ul>
       <div class="cadd">
-        <input type="text" id="eData" placeholder="Data">
-        <input type="text" id="eDesc" placeholder="Descrizione" style="flex:2">
-        <input type="number" id="eAmt" placeholder="€" min="0">
-        <button class="ae" onclick="addEntrata()">＋</button>
+        <input type="text" id="eData" placeholder="Data (es. 07/05/2026)" style="min-width:110px">
+        <input type="text" id="eDesc" placeholder="Descrizione" style="flex:2;min-width:120px">
+        <input type="number" id="eAmt" placeholder="€" min="0" style="max-width:70px">
+        <button class="ae" onclick="addEntrata()">＋ Aggiungi</button>
       </div>
-      <div class="ctot"><span>Totale</span><span class="ca e" id="totEbot">…</span></div>
+      <div class="ctot"><span>Totale Entrate</span><span class="ca e" id="totEbot">…</span></div>
     </div>
     <div class="ccard">
-      <div class="ccard-h u"><span>📤 Uscite</span></div>
+      <div class="ccard-h ch-u"><span>📤 Uscite</span></div>
       <ul class="clist" id="usciteList"></ul>
       <div class="cadd">
-        <input type="text" id="uData" placeholder="Data">
-        <input type="text" id="uDesc" placeholder="Descrizione" style="flex:2">
-        <input type="number" id="uAmt" placeholder="€" min="0">
-        <button class="au" onclick="addUscita()">＋</button>
+        <input type="text" id="uData" placeholder="Data (es. 07/05/2026)" style="min-width:110px">
+        <input type="text" id="uDesc" placeholder="Descrizione" style="flex:2;min-width:120px">
+        <input type="number" id="uAmt" placeholder="€" min="0" style="max-width:70px">
+        <button class="au" onclick="addUscita()">＋ Aggiungi</button>
       </div>
-      <div class="ctot"><span>Totale</span><span class="ca u" id="totUbot">…</span></div>
+      <div class="ctot"><span>Totale Uscite</span><span class="ca u" id="totUbot">…</span></div>
     </div>
     <div class="saldo-box">
       <div>
-        <div style="font-size:.75rem;opacity:.8;text-transform:uppercase;letter-spacing:1px">💰 Saldo Cassa</div>
-        <div style="font-size:.8rem;opacity:.7;margin-top:3px">Entrate − Uscite</div>
+        <div class="sb-label">💰 Saldo Cassa</div>
+        <div style="font-size:.78rem;opacity:.65;margin-top:2px">Entrate − Uscite</div>
       </div>
-      <div class="sv2" id="saldoFin">…</div>
+      <div class="sb-val" id="saldoFin">…</div>
     </div>
   </div>
 </div>
 
 </main>
 
-<!-- MODAL NUOVO MEMBRO -->
+<!-- MODAL NUOVO / MODIFICA MEMBRO -->
 <div class="overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
-    <h2>➕ Nuovo Membro</h2>
+    <h2 id="modalTitle">➕ Nuovo Membro</h2>
     <div class="fg">
-      <div><label>Nome *</label><input type="text" id="fNome" placeholder="es. Aida"></div>
-      <div><label>Cognome *</label><input type="text" id="fCognome" placeholder="es. Ba"></div>
-      <div><label>Telefono</label><input type="tel" id="fTel" placeholder="371 000 0000"></div>
-      <div><label>Data di Nascita</label><input type="text" id="fDdn" placeholder="gg/mm/aaaa"></div>
-      <div class="full"><label>Indirizzo</label><input type="text" id="fAddr" placeholder="Via..."></div>
+      <div><label class="flabel">Nome *</label><input class="finput" type="text" id="fNome" placeholder="es. Aida"></div>
+      <div><label class="flabel">Cognome *</label><input class="finput" type="text" id="fCognome" placeholder="es. Ba"></div>
+      <div><label class="flabel">Telefono</label><input class="finput" type="tel" id="fTel" placeholder="371 000 0000"></div>
+      <div><label class="flabel">Data di Nascita</label><input class="finput" type="text" id="fDdn" placeholder="gg/mm/aaaa"></div>
+      <div class="full"><label class="flabel">Indirizzo</label><input class="finput" type="text" id="fAddr" placeholder="Via..."></div>
     </div>
     <div class="mact">
-      <button class="btn outline" onclick="closeModal()">Annulla</button>
-      <button class="btn" onclick="saveMember()">Salva</button>
+      <button class="btn btn-outline" onclick="closeModal()">Annulla</button>
+      <button class="btn btn-green" id="modalSaveBtn" onclick="saveMember()">Salva</button>
     </div>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════
-// CONFIG SUPABASE
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
+// SUPABASE CONFIG
+// ══════════════════════════════════════════
 const SUPA_URL = "https://utrobifkgoddgxbcxqcx.supabase.co";
 const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV0cm9iaWZrZ29kZGd4YmN4cWN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMzQxNjIsImV4cCI6MjA5MzcxMDE2Mn0.8Ln9T926z5O3pzIaIqawwtQi3KL9WOp20AQbK7qPPKA";
-
 const H = {"Content-Type":"application/json","apikey":SUPA_KEY,"Authorization":"Bearer "+SUPA_KEY};
 
-// ══════════════════════════════════════════════════════
-// SUPABASE HELPERS
-// ══════════════════════════════════════════════════════
-async function sb(path, opts={}){
-  const r = await fetch(SUPA_URL+"/rest/v1/"+path, {headers:H, ...opts});
-  if(!r.ok){ const e=await r.text(); throw new Error(e); }
-  const t = await r.text();
-  return t ? JSON.parse(t) : null;
+async function sbGet(t,q=""){
+  const r=await fetch(`${SUPA_URL}/rest/v1/${t}?${q}&order=id`,{headers:H});
+  if(!r.ok) throw new Error(await r.text());
+  return r.json();
 }
-async function sbGet(table, query=""){ return sb(table+"?"+query+"&order=id"); }
-async function sbPost(table, body){ return sb(table, {method:"POST", headers:{...H,"Prefer":"return=representation"}, body:JSON.stringify(body)}); }
-async function sbPatch(table, id, body){ return sb(table+"?id=eq."+id, {method:"PATCH", headers:{...H,"Prefer":"return=representation"}, body:JSON.stringify(body)}); }
-async function sbDelete(table, id){ return sb(table+"?id=eq."+id, {method:"DELETE"}); }
-
-// SQL runner (via rpc)
-async function runSQL(sql){
-  const r = await fetch(SUPA_URL+"/rest/v1/rpc/exec_sql", {
-    method:"POST", headers:H, body:JSON.stringify({sql})
-  });
-  return r;
+async function sbPost(t,body){
+  const r=await fetch(`${SUPA_URL}/rest/v1/${t}`,{method:"POST",headers:{...H,"Prefer":"return=representation"},body:JSON.stringify(body)});
+  if(!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function sbPatch(t,id,body){
+  const r=await fetch(`${SUPA_URL}/rest/v1/${t}?id=eq.${id}`,{method:"PATCH",headers:{...H,"Prefer":"return=representation"},body:JSON.stringify(body)});
+  if(!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function sbDelete(t,id){
+  const r=await fetch(`${SUPA_URL}/rest/v1/${t}?id=eq.${id}`,{method:"DELETE",headers:H});
+  if(!r.ok) throw new Error(await r.text());
+}
+async function sbUpsert(t,body){
+  const r=await fetch(`${SUPA_URL}/rest/v1/${t}`,{method:"POST",headers:{...H,"Prefer":"resolution=merge-duplicates,return=minimal"},body:JSON.stringify(body)});
+  if(!r.ok) throw new Error(await r.text());
 }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
+// DATI INIZIALI (già pronti, caricati subito)
+// ══════════════════════════════════════════
+const MONTHS = ["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"];
+
+const INITIAL_MEMBERS = [
+  {nome:"THIARA",cognome:"DIOP",telefono:"331 282 9145",indirizzo:"Viale Astronauti 3/5 Marotta",ddn:""},
+  {nome:"YOMBA",cognome:"DIONE",telefono:"345 353 5431",indirizzo:"",ddn:""},
+  {nome:"FADY",cognome:"NDIAYE",telefono:"371 429 3932",indirizzo:"Via Fanella 69",ddn:"03/10/2006"},
+  {nome:"NDIOBA",cognome:"NIANG",telefono:"",indirizzo:"",ddn:""},
+  {nome:"MAME FATOU",cognome:"NIASSE BICCORA",telefono:"",indirizzo:"",ddn:""},
+  {nome:"ANTA",cognome:"DIOP",telefono:"353 462 4517",indirizzo:"",ddn:""},
+  {nome:"MAME DIARRA",cognome:"NIASSE – BA",telefono:"",indirizzo:"",ddn:""},
+  {nome:"MAMAU",cognome:"SAMB",telefono:"371 681 8551",indirizzo:"",ddn:""},
+  {nome:"COUMBA",cognome:"SAMB",telefono:"371 680 3578",indirizzo:"",ddn:""},
+  {nome:"TABARA",cognome:"GUEYE",telefono:"233 654 5721",indirizzo:"Marotta",ddn:""},
+  {nome:"MAME DIARRA",cognome:"BOUBOU WADE",telefono:"371 788 7806",indirizzo:"",ddn:""},
+  {nome:"ANTA",cognome:"DEME",telefono:"329 557 1718",indirizzo:"",ddn:""},
+  {nome:"MAME FATOU",cognome:"NIASSE GOWPE",telefono:"353 470 3004",indirizzo:"",ddn:""},
+  {nome:"MAME DIARRA",cognome:"NDOYE",telefono:"329 206 3778",indirizzo:"",ddn:""},
+  {nome:"FATOU",cognome:"SECK",telefono:"",indirizzo:"",ddn:""},
+  {nome:"DJEYNABA",cognome:"NDIAYE",telefono:"",indirizzo:"",ddn:""},
+  {nome:"JOJO",cognome:"LO",telefono:"",indirizzo:"",ddn:""},
+  {nome:"AIDA",cognome:"BA",telefono:"371 312 4408",indirizzo:"Via Fausto Coppi N5",ddn:"06/05/2005"},
+  {nome:"ADAMA",cognome:"SECK",telefono:"377 309 3509",indirizzo:"S.N.A.S. 383",ddn:"03/04/2001"},
+  {nome:"AIDA",cognome:"MBAYE",telefono:"389 189 8801",indirizzo:"",ddn:""},
+  {nome:"AIDA",cognome:"NDIAYE",telefono:"333 895 4921",indirizzo:"",ddn:""},
+  {nome:"AICHA",cognome:"DIENG",telefono:"370 353 0167",indirizzo:"",ddn:""},
+  {nome:"ALIMA",cognome:"DER",telefono:"371 445 5933",indirizzo:"",ddn:""},
+  {nome:"AMINA",cognome:"KEBE",telefono:"328 759 1447",indirizzo:"",ddn:""},
+  {nome:"AISSATOU",cognome:"DIENG",telefono:"371 537 5860",indirizzo:"",ddn:""},
+  {nome:"AWA",cognome:"SECK",telefono:"327 689 1411",indirizzo:"RIPE",ddn:""},
+  {nome:"SOKHNA AWA",cognome:"SECK",telefono:"377 309 2956",indirizzo:"S.N.A.S. 383",ddn:"03/04/2001"},
+  {nome:"AMY",cognome:"NDIAYE",telefono:"320 370 9958",indirizzo:"Via 4 Novembre 172/C",ddn:"26/04/2006"},
+  {nome:"ANTA",cognome:"NDIAGNE",telefono:"351 767 5292",indirizzo:"Via Rosili 12",ddn:"29/07/1995"},
+  {nome:"BOUUSO",cognome:"DIENG",telefono:"351 295 5646",indirizzo:"",ddn:""},
+  {nome:"BOUSSO",cognome:"LEYE",telefono:"327 628 9916",indirizzo:"",ddn:""},
+  {nome:"COBEYE PRESIDENTE",cognome:"DIOP",telefono:"351 658 1109",indirizzo:"Strada Solfanuccio 37",ddn:"10/11/2001"},
+  {nome:"COUMBA",cognome:"MBOW",telefono:"366 381 8103",indirizzo:"",ddn:""},
+  {nome:"MAME DIARRA",cognome:"BA – KÉBÉ",telefono:"375 852 3402",indirizzo:"",ddn:""},
+  {nome:"MAME DIARRA",cognome:"SECK",telefono:"338 523 8776",indirizzo:"SNAS 383",ddn:"27/03/2006"},
+  {nome:"NDEYE",cognome:"LO",telefono:"388 433 6796",indirizzo:"",ddn:""},
+  {nome:"NOGAYE",cognome:"DIALLO",telefono:"324 631 4663",indirizzo:"",ddn:""},
+  {nome:"KHADIJA",cognome:"SECK",telefono:"328 735 8814",indirizzo:"",ddn:""},
+  {nome:"KHADY GAYE",cognome:"FALL",telefono:"353 449 3180",indirizzo:"V. Ineivo Ippolito",ddn:"01/01/2002"},
+  {nome:"KHADY",cognome:"LO",telefono:"380 284 4755",indirizzo:"Via Alcide di Gasperi 29",ddn:"03/07/2003"},
+  {nome:"SOKHNA",cognome:"SALL",telefono:"351 195 7192",indirizzo:"Via Martiri delle Foibe",ddn:"11/11/2005"},
+];
+
+const INITIAL_PAYMENTS = [
+  {nome:"THIARA",cognome:"DIOP",years:{2022:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"YOMBA",cognome:"DIONE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,0,0,0,0,0,0,0]}},
+  {nome:"FADY",cognome:"NDIAYE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"NDIOBA",cognome:"NIANG",years:{2022:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"MAME FATOU",cognome:"NIASSE BICCORA",years:{2025:[1,0,0,0,0,0,0,0,0,0,0,0]}},
+  {nome:"ANTA",cognome:"DIOP",years:{2024:[1,1,1,1,1,1,0,0,0,0,0,0]}},
+  {nome:"MAME DIARRA",cognome:"NIASSE – BA",years:{2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"MAME DIARRA",cognome:"BOUBOU WADE",years:{2023:[1,1,1,1,1,1,0,0,0,0,0,0]}},
+  {nome:"MAME DIARRA",cognome:"NDOYE",years:{2022:[1,1,1,1,1,1,0,0,0,0,0,0]}},
+  {nome:"DJEYNABA",cognome:"NDIAYE",years:{2024:[1,1,1,1,1,1,0,0,0,0,0,0]}},
+  {nome:"JOJO",cognome:"LO",years:{2022:[1,1,1,1,1,1,1,1,1,1,0,0]}},
+  {nome:"AIDA",cognome:"BA",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"ADAMA",cognome:"SECK",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1],2025:[1,1,1,1,1,1,1,1,1,1,1,1],2026:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"AIDA",cognome:"MBAYE",years:{2023:[1,1,0,0,0,0,0,0,0,0,0,0],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"AIDA",cognome:"NDIAYE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"AICHA",cognome:"DIENG",years:{2022:[1,1,1,1,1,1,1,1,1,1,1,1],2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"ALIMA",cognome:"DER",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"AMINA",cognome:"KEBE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"AISSATOU",cognome:"DIENG",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"AWA",cognome:"SECK",years:{2022:[1,1,1,1,1,1,1,1,0,0,0,0]}},
+  {nome:"SOKHNA AWA",cognome:"SECK",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1],2025:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"AMY",cognome:"NDIAYE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"ANTA",cognome:"NDIAGNE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1],2025:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"BOUUSO",cognome:"DIENG",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"BOUSSO",cognome:"LEYE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"COBEYE PRESIDENTE",cognome:"DIOP",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"COUMBA",cognome:"MBOW",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"MAME DIARRA",cognome:"BA – KÉBÉ",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"MAME DIARRA",cognome:"SECK",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1],2025:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"NDEYE",cognome:"LO",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"NOGAYE",cognome:"DIALLO",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,0,0]}},
+  {nome:"KHADY GAYE",cognome:"FALL",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+  {nome:"KHADY",cognome:"LO",years:{2023:[1,1,1,1,1,0,0,0,0,0,0,0]}},
+  {nome:"SOKHNA",cognome:"SALL",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
+];
+
+const INITIAL_CASSA = [
+  {tipo:"entrata",data_mov:"2024",descrizione:"+8 Ventaille Magal 2024",importo:48},
+  {tipo:"entrata",data_mov:"21/04/2025",descrizione:"+70 Magal N. Cheikh I.F.",importo:70},
+  {tipo:"entrata",data_mov:"31/10/2025",descrizione:"Alattam (Ndoye Fary, Atty Ndiaye, Anda Ba)",importo:1660},
+  {tipo:"entrata",data_mov:"09/02/2025",descrizione:"Alattam",importo:1940},
+  {tipo:"entrata",data_mov:"25/03/2025",descrizione:"Alattam",importo:1666},
+  {tipo:"entrata",data_mov:"30/04/2025",descrizione:"Alattam",importo:1626},
+  {tipo:"entrata",data_mov:"14/10/2025",descrizione:"Alattam",importo:25000},
+  {tipo:"entrata",data_mov:"06/11/2025",descrizione:"Alattam",importo:1847},
+  {tipo:"entrata",data_mov:"18/12/2025",descrizione:"Alattam",importo:2582},
+  {tipo:"entrata",data_mov:"05/01/2026",descrizione:"Alattam",importo:2166},
+  {tipo:"entrata",data_mov:"07/02/2026",descrizione:"150 Pour Thin Di",importo:150},
+  {tipo:"entrata",data_mov:"08/03/2026",descrizione:"95 Pour Diara Yi",importo:95},
+  {tipo:"entrata",data_mov:"",descrizione:"+ 120 Jima Andakleon",importo:120},
+  {tipo:"uscita",data_mov:"",descrizione:"100 Fotografe Laylatul Qadr",importo:100},
+  {tipo:"uscita",data_mov:"",descrizione:"100 Riunione Generale Goorgui",importo:100},
+  {tipo:"uscita",data_mov:"",descrizione:"174 Baggage Magal 2024",importo:174},
+  {tipo:"uscita",data_mov:"",descrizione:"70 Baggage Magal Si Diimeisbi",importo:70},
+  {tipo:"uscita",data_mov:"",descrizione:"300 Keur S.R.T. Bi",importo:300},
+  {tipo:"uscita",data_mov:"",descrizione:"19 Badge Magal",importo:19},
+  {tipo:"uscita",data_mov:"",descrizione:"200 Mere Yi Magal Porokhane Senegal",importo:200},
+  {tipo:"uscita",data_mov:"",descrizione:"100 Thiant Ritlini",importo:100},
+  {tipo:"uscita",data_mov:"",descrizione:"34 Badge Magal",importo:34},
+  {tipo:"uscita",data_mov:"",descrizione:"300 Mere Yi",importo:300},
+  {tipo:"uscita",data_mov:"",descrizione:"18 Yet Magal M. Diarra",importo:18},
+  {tipo:"uscita",data_mov:"23/07/2025",descrizione:"100 Triago",importo:100},
+  {tipo:"uscita",data_mov:"05/11/2025",descrizione:"52 Pour Yindu",importo:52},
+  {tipo:"uscita",data_mov:"18/11/2025",descrizione:"500 Ewa K.S.T.",importo:500},
+  {tipo:"uscita",data_mov:"18/12/2025",descrizione:"500 Pour Mere Yi",importo:500},
+  {tipo:"uscita",data_mov:"08/03/2026",descrizione:"Totale Uscite 2026 (riepilogo)",importo:2046},
+];
+
+// ══════════════════════════════════════════
 // STATE
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 let members=[], payments=[], entrate=[], uscite=[];
-const MONTHS=["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"];
+let activeFilter='tutti', editingMemberId=null;
 
-// ══════════════════════════════════════════════════════
-// INIT — crea tabelle se non esistono, poi carica dati
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
 async function init(){
-  try {
-    await setupDB();
-    await loadAll();
-    showApp();
-  } catch(e){
-    console.error(e);
-    toast("❌ Errore connessione: "+e.message, 5000);
-    showApp(); // mostra lo stesso
-  }
-}
-
-async function setupDB(){
-  // Crea tabelle tramite Supabase SQL editor API
-  const sql = `
-    CREATE TABLE IF NOT EXISTS membri (
-      id BIGSERIAL PRIMARY KEY,
-      nome TEXT NOT NULL,
-      cognome TEXT NOT NULL,
-      telefono TEXT DEFAULT '',
-      indirizzo TEXT DEFAULT '',
-      ddn TEXT DEFAULT '',
-      created_at TIMESTAMPTZ DEFAULT NOW()
-    );
-    CREATE TABLE IF NOT EXISTS pagamenti (
-      id BIGSERIAL PRIMARY KEY,
-      membro_id BIGINT REFERENCES membri(id) ON DELETE CASCADE,
-      anno INT NOT NULL,
-      mese INT NOT NULL CHECK (mese BETWEEN 1 AND 12),
-      pagato BOOLEAN DEFAULT FALSE,
-      UNIQUE(membro_id, anno, mese)
-    );
-    CREATE TABLE IF NOT EXISTS cassa (
-      id BIGSERIAL PRIMARY KEY,
-      tipo TEXT NOT NULL CHECK (tipo IN ('entrata','uscita')),
-      data_mov TEXT DEFAULT '',
-      descrizione TEXT NOT NULL,
-      importo NUMERIC(10,2) NOT NULL,
-      created_at TIMESTAMPTZ DEFAULT NOW()
-    );
-    ALTER TABLE membri DISABLE ROW LEVEL SECURITY;
-    ALTER TABLE pagamenti DISABLE ROW LEVEL SECURITY;
-    ALTER TABLE cassa DISABLE ROW LEVEL SECURITY;
-  `;
-  // Usa pg_dump via query diretto
-  await fetch(SUPA_URL+"/rest/v1/rpc/exec_sql", {
-    method:"POST", headers:H, body:JSON.stringify({query:sql})
-  }).catch(()=>{}); // ignora se rpc non esiste
-}
-
-async function loadAll(){
   setLoading(true);
   try {
-    // Prova a leggere le tabelle — se non esistono le crea tramite insert
-    const [m, p, c] = await Promise.all([
+    const [m,p,c] = await Promise.all([
       sbGet("membri","select=*"),
       sbGet("pagamenti","select=*"),
-      sbGet("cassa","select=*&order=id"),
+      sbGet("cassa","select=*"),
     ]);
-    members  = m || [];
-    payments = p || [];
-    const all_cassa = c || [];
-    entrate = all_cassa.filter(x=>x.tipo==="entrata");
-    uscite  = all_cassa.filter(x=>x.tipo==="uscita");
+    members  = m||[];
+    payments = p||[];
+    const allC = c||[];
+    entrate = allC.filter(x=>x.tipo==="entrata");
+    uscite  = allC.filter(x=>x.tipo==="uscita");
 
-    // Se il DB è vuoto, carica i dati iniziali
-    if(members.length === 0) await seedData();
-    else {
-      await loadAll2();
+    if(members.length===0){
+      toast("⏳ Prima apertura: carico tutti i dati…");
+      await seedAll();
     }
   } catch(e){
-    // Le tabelle non esistono ancora — mostra messaggio
-    toast("⚠️ Inizializzazione DB in corso…", 3000);
-    await createTablesAndSeed();
+    toast("⚠️ Modalità offline — dati locali");
+    loadLocalFallback();
   }
   setLoading(false);
-}
-
-async function loadAll2(){
-  const [m, p, c] = await Promise.all([
-    sbGet("membri","select=*"),
-    sbGet("pagamenti","select=*"),
-    sbGet("cassa","select=*&order=id"),
-  ]);
-  members  = m || [];
-  payments = p || [];
-  const all_cassa = c || [];
-  entrate = all_cassa.filter(x=>x.tipo==="entrata");
-  uscite  = all_cassa.filter(x=>x.tipo==="uscita");
-}
-
-async function createTablesAndSeed(){
-  // Crea le tabelle inserendo dati — Supabase le crea automaticamente
-  // se usiamo l'approccio REST senza RPC
-  // Alternativa: usa Supabase Management API
-  toast("Per favore crea le tabelle dal pannello Supabase SQL Editor", 8000);
-}
-
-// ══════════════════════════════════════════════════════
-// SEED — inserisce tutti i dati iniziali
-// ══════════════════════════════════════════════════════
-async function seedData(){
-  toast("⏳ Caricamento dati iniziali…", 3000);
-  const initialMembers = [
-    {nome:"THIARA",cognome:"DIOP",telefono:"331 282 9145",indirizzo:"Viale Astronauti 3/5 Marotta",ddn:""},
-    {nome:"YOMBA",cognome:"DIONE",telefono:"345 353 5431",indirizzo:"",ddn:""},
-    {nome:"FADY",cognome:"NDIAYE",telefono:"371 429 3932",indirizzo:"Via Fanella 69",ddn:"03/10/2006"},
-    {nome:"NDIOBA",cognome:"NIANG",telefono:"",indirizzo:"",ddn:""},
-    {nome:"MAME FATOU",cognome:"NIASSE BICCORA",telefono:"",indirizzo:"",ddn:""},
-    {nome:"ANTA",cognome:"DIOP",telefono:"353 462 4517",indirizzo:"",ddn:""},
-    {nome:"MAME DIARRA",cognome:"NIASSE – BA",telefono:"",indirizzo:"",ddn:""},
-    {nome:"MAMAU",cognome:"SAMB",telefono:"371 681 8551",indirizzo:"",ddn:""},
-    {nome:"COUMBA",cognome:"SAMB",telefono:"371 680 3578",indirizzo:"",ddn:""},
-    {nome:"TABARA",cognome:"GUEYE",telefono:"233 654 5721",indirizzo:"Marotta",ddn:""},
-    {nome:"MAME DIARRA",cognome:"BOUBOU WADE",telefono:"371 788 7806",indirizzo:"",ddn:""},
-    {nome:"ANTA",cognome:"DEME",telefono:"329 557 1718",indirizzo:"",ddn:""},
-    {nome:"MAME FATOU",cognome:"NIASSE GOWPE",telefono:"353 470 3004",indirizzo:"",ddn:""},
-    {nome:"MAME DIARRA",cognome:"NDOYE",telefono:"329 206 3778",indirizzo:"",ddn:""},
-    {nome:"FATOU",cognome:"SECK",telefono:"",indirizzo:"",ddn:""},
-    {nome:"DJEYNABA",cognome:"NDIAYE",telefono:"",indirizzo:"",ddn:""},
-    {nome:"JOJO",cognome:"LO",telefono:"",indirizzo:"",ddn:""},
-    {nome:"AIDA",cognome:"BA",telefono:"371 312 4408",indirizzo:"Via Fausto Coppi N5",ddn:"06/05/2005"},
-    {nome:"ADAMA",cognome:"SECK",telefono:"377 309 3509",indirizzo:"S.N.A.S. 383",ddn:"03/04/2001"},
-    {nome:"AIDA",cognome:"MBAYE",telefono:"389 189 8801",indirizzo:"",ddn:""},
-    {nome:"AIDA",cognome:"NDIAYE",telefono:"333 895 4921",indirizzo:"",ddn:""},
-    {nome:"AICHA",cognome:"DIENG",telefono:"370 353 0167",indirizzo:"",ddn:""},
-    {nome:"ALIMA",cognome:"DER",telefono:"371 445 5933",indirizzo:"",ddn:""},
-    {nome:"AMINA",cognome:"KEBE",telefono:"328 759 1447",indirizzo:"",ddn:""},
-    {nome:"AISSATOU",cognome:"DIENG",telefono:"371 537 5860",indirizzo:"",ddn:""},
-    {nome:"AWA",cognome:"SECK",telefono:"327 689 1411",indirizzo:"RIPE",ddn:""},
-    {nome:"SOKHNA AWA",cognome:"SECK",telefono:"377 309 2956",indirizzo:"S.N.A.S. 383",ddn:"03/04/2001"},
-    {nome:"AMY",cognome:"NDIAYE",telefono:"320 370 9958",indirizzo:"Via 4 Novembre 172/C",ddn:"26/04/2006"},
-    {nome:"ANTA",cognome:"NDIAGNE",telefono:"351 767 5292",indirizzo:"Via Rosili 12",ddn:"29/07/1995"},
-    {nome:"BOUUSO",cognome:"DIENG",telefono:"351 295 5646",indirizzo:"",ddn:""},
-    {nome:"BOUSSO",cognome:"LEYE",telefono:"327 628 9916",indirizzo:"",ddn:""},
-    {nome:"COBEYE PRESIDENTE",cognome:"DIOP",telefono:"351 658 1109",indirizzo:"Strada Solfanuccio 37",ddn:"10/11/2001"},
-    {nome:"COUMBA",cognome:"MBOW",telefono:"366 381 8103",indirizzo:"",ddn:""},
-    {nome:"MAME DIARRA",cognome:"BA – KÉBÉ",telefono:"375 852 3402",indirizzo:"",ddn:""},
-    {nome:"MAME DIARRA",cognome:"SECK",telefono:"338 523 8776",indirizzo:"SNAS 383",ddn:"27/03/2006"},
-    {nome:"NDEYE",cognome:"LO",telefono:"388 433 6796",indirizzo:"",ddn:""},
-    {nome:"NOGAYE",cognome:"DIALLO",telefono:"324 631 4663",indirizzo:"",ddn:""},
-    {nome:"KHADIJA",cognome:"SECK",telefono:"328 735 8814",indirizzo:"",ddn:""},
-    {nome:"KHADY GAYE",cognome:"FALL",telefono:"353 449 3180",indirizzo:"V. Ineivo Ippolito",ddn:"01/01/2002"},
-    {nome:"KHADY",cognome:"LO",telefono:"380 284 4755",indirizzo:"Via Alcide di Gasperi 29",ddn:"03/07/2003"},
-    {nome:"SOKHNA",cognome:"SALL",telefono:"351 195 7192",indirizzo:"Via Martiri delle Foibe",ddn:"11/11/2005"},
-  ];
-
-  // Insert all members
-  const inserted = await sbPost("membri", initialMembers);
-  members = inserted || [];
-
-  // Seed payments
-  const payData = [
-    // {nome, cognome} -> {anno: [bool x12]}
-    {nome:"THIARA",cognome:"DIOP",years:{2022:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"YOMBA",cognome:"DIONE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,0,0,0,0,0,0,0]}},
-    {nome:"FADY",cognome:"NDIAYE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"NDIOBA",cognome:"NIANG",years:{2022:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"MAME FATOU",cognome:"NIASSE BICCORA",years:{2025:[1,0,0,0,0,0,0,0,0,0,0,0]}},
-    {nome:"ANTA",cognome:"DIOP",years:{2024:[1,1,1,1,1,1,0,0,0,0,0,0]}},
-    {nome:"MAME DIARRA",cognome:"NIASSE – BA",years:{2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"MAME DIARRA",cognome:"BOUBOU WADE",years:{2023:[1,1,1,1,1,1,0,0,0,0,0,0]}},
-    {nome:"MAME DIARRA",cognome:"NDOYE",years:{2022:[1,1,1,1,1,1,0,0,0,0,0,0]}},
-    {nome:"DJEYNABA",cognome:"NDIAYE",years:{2024:[1,1,1,1,1,1,0,0,0,0,0,0]}},
-    {nome:"JOJO",cognome:"LO",years:{2022:[1,1,1,1,1,1,1,1,1,1,0,0]}},
-    {nome:"AIDA",cognome:"BA",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"ADAMA",cognome:"SECK",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1],2025:[1,1,1,1,1,1,1,1,1,1,1,1],2026:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"AIDA",cognome:"MBAYE",years:{2023:[1,1,0,0,0,0,0,0,0,0,0,0],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"AIDA",cognome:"NDIAYE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"AICHA",cognome:"DIENG",years:{2022:[1,1,1,1,1,1,1,1,1,1,1,1],2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"ALIMA",cognome:"DER",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"AMINA",cognome:"KEBE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"AISSATOU",cognome:"DIENG",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"AWA",cognome:"SECK",years:{2022:[1,1,1,1,1,1,1,1,0,0,0,0]}},
-    {nome:"SOKHNA AWA",cognome:"SECK",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1],2025:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"AMY",cognome:"NDIAYE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"ANTA",cognome:"NDIAGNE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1],2025:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"BOUUSO",cognome:"DIENG",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"BOUSSO",cognome:"LEYE",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"COBEYE PRESIDENTE",cognome:"DIOP",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"COUMBA",cognome:"MBOW",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"MAME DIARRA",cognome:"BA – KÉBÉ",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"MAME DIARRA",cognome:"SECK",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1],2025:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"NDEYE",cognome:"LO",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"NOGAYE",cognome:"DIALLO",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,0,0]}},
-    {nome:"KHADY GAYE",cognome:"FALL",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1],2024:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-    {nome:"KHADY",cognome:"LO",years:{2023:[1,1,1,1,1,0,0,0,0,0,0,0]}},
-    {nome:"SOKHNA",cognome:"SALL",years:{2023:[1,1,1,1,1,1,1,1,1,1,1,1]}},
-  ];
-
-  let payRows = [];
-  for(const pd of payData){
-    const mem = members.find(m=>m.nome===pd.nome && m.cognome===pd.cognome);
-    if(!mem) continue;
-    for(const [anno, mesi] of Object.entries(pd.years)){
-      for(let mi=0; mi<12; mi++){
-        if(mesi[mi]) payRows.push({membro_id:mem.id, anno:parseInt(anno), mese:mi+1, pagato:true});
-      }
-    }
-  }
-  if(payRows.length) await sbPost("pagamenti", payRows);
-
-  // Seed cassa
-  const cassaRows = [
-    {tipo:"entrata",data_mov:"2024",descrizione:"+8 Ventaille Magal 2024",importo:48},
-    {tipo:"entrata",data_mov:"21/04/2025",descrizione:"+70 Magal N. Cheikh I.F.",importo:70},
-    {tipo:"entrata",data_mov:"31/10/2025",descrizione:"Alattam (Ndoye Fary, Atty Ndiaye, Anda Ba)",importo:1660},
-    {tipo:"entrata",data_mov:"09/02/2025",descrizione:"Alattam",importo:1940},
-    {tipo:"entrata",data_mov:"25/03/2025",descrizione:"Alattam",importo:1666},
-    {tipo:"entrata",data_mov:"30/04/2025",descrizione:"Alattam",importo:1626},
-    {tipo:"entrata",data_mov:"14/10/2025",descrizione:"Alattam",importo:25000},
-    {tipo:"entrata",data_mov:"06/11/2025",descrizione:"Alattam",importo:1847},
-    {tipo:"entrata",data_mov:"18/12/2025",descrizione:"Alattam",importo:2582},
-    {tipo:"entrata",data_mov:"05/01/2026",descrizione:"Alattam",importo:2166},
-    {tipo:"entrata",data_mov:"07/02/2026",descrizione:"150 Pour Thin Di",importo:150},
-    {tipo:"entrata",data_mov:"08/03/2026",descrizione:"95 Pour Diara Yi",importo:95},
-    {tipo:"entrata",data_mov:"",descrizione:"+ 120 Jima Andakleon",importo:120},
-    {tipo:"uscita",data_mov:"",descrizione:"100 Fotografe Laylatul Qadr",importo:100},
-    {tipo:"uscita",data_mov:"",descrizione:"100 Riunione Generale Goorgui",importo:100},
-    {tipo:"uscita",data_mov:"",descrizione:"174 Baggage Magal 2024",importo:174},
-    {tipo:"uscita",data_mov:"",descrizione:"70 Baggage Magal Si Diimeisbi",importo:70},
-    {tipo:"uscita",data_mov:"",descrizione:"300 Keur S.R.T. Bi",importo:300},
-    {tipo:"uscita",data_mov:"",descrizione:"19 Badge Magal",importo:19},
-    {tipo:"uscita",data_mov:"",descrizione:"200 Mere Yi Magal Porokhane Senegal",importo:200},
-    {tipo:"uscita",data_mov:"",descrizione:"100 Thiant Ritlini",importo:100},
-    {tipo:"uscita",data_mov:"",descrizione:"34 Badge Magal",importo:34},
-    {tipo:"uscita",data_mov:"",descrizione:"300 Mere Yi",importo:300},
-    {tipo:"uscita",data_mov:"",descrizione:"18 Yet Magal M. Diarra",importo:18},
-    {tipo:"uscita",data_mov:"23/07/2025",descrizione:"100 Triago",importo:100},
-    {tipo:"uscita",data_mov:"05/11/2025",descrizione:"52 Pour Yindu",importo:52},
-    {tipo:"uscita",data_mov:"18/11/2025",descrizione:"500 Ewa K.S.T.",importo:500},
-    {tipo:"uscita",data_mov:"18/12/2025",descrizione:"500 Pour Mere Yi",importo:500},
-    {tipo:"uscita",data_mov:"08/03/2026",descrizione:"Totale Uscite 2026 (riepilogo)",importo:2046},
-  ];
-  await sbPost("cassa", cassaRows);
-  await loadAll2();
-  toast("✅ Dati caricati con successo!", 3000);
-}
-
-// ══════════════════════════════════════════════════════
-// UI
-// ══════════════════════════════════════════════════════
-function showApp(){
-  document.getElementById('appHeader').classList.remove('hidden');
-  document.getElementById('appNav').classList.remove('hidden');
-  document.getElementById('appMain').classList.remove('hidden');
   renderTable();
   renderCassa();
 }
-function setLoading(v){
-  document.getElementById('loadingBar').classList.toggle('done',!v);
+
+function loadLocalFallback(){
+  // Usa i dati hardcoded con ID locali
+  members = INITIAL_MEMBERS.map((m,i)=>({...m,id:i+1}));
+  payments = [];
+  INITIAL_PAYMENTS.forEach(pd=>{
+    const mem = members.find(m=>m.nome===pd.nome&&m.cognome===pd.cognome);
+    if(!mem) return;
+    Object.entries(pd.years).forEach(([yr,mesi])=>{
+      mesi.forEach((p,mi)=>{ if(p) payments.push({id:Date.now()+Math.random(),membro_id:mem.id,anno:parseInt(yr),mese:mi+1,pagato:true}); });
+    });
+  });
+  entrate = INITIAL_CASSA.filter(x=>x.tipo==="entrata").map((x,i)=>({...x,id:i+1}));
+  uscite  = INITIAL_CASSA.filter(x=>x.tipo==="uscita").map((x,i)=>({...x,id:100+i}));
 }
-function toast(msg, dur=2500){
+
+async function seedAll(){
+  // 1. Inserisci membri
+  const ins = await sbPost("membri", INITIAL_MEMBERS);
+  members = ins;
+
+  // 2. Inserisci pagamenti
+  let payRows=[];
+  INITIAL_PAYMENTS.forEach(pd=>{
+    const mem=members.find(m=>m.nome===pd.nome&&m.cognome===pd.cognome);
+    if(!mem) return;
+    Object.entries(pd.years).forEach(([yr,mesi])=>{
+      mesi.forEach((p,mi)=>{ if(p) payRows.push({membro_id:mem.id,anno:parseInt(yr),mese:mi+1,pagato:true}); });
+    });
+  });
+  if(payRows.length) await sbPost("pagamenti",payRows);
+
+  // 3. Inserisci cassa
+  await sbPost("cassa", INITIAL_CASSA);
+
+  // 4. Ricarica
+  const [p,c] = await Promise.all([
+    sbGet("pagamenti","select=*"),
+    sbGet("cassa","select=*"),
+  ]);
+  payments = p||[];
+  const allC = c||[];
+  entrate = allC.filter(x=>x.tipo==="entrata");
+  uscite  = allC.filter(x=>x.tipo==="uscita");
+  toast("✅ Tutti i dati caricati!");
+}
+
+// ══════════════════════════════════════════
+// UI HELPERS
+// ══════════════════════════════════════════
+function setLoading(v){ document.getElementById('loader').classList.toggle('done',!v); }
+function toast(msg,dur=2800){
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), dur);
+  clearTimeout(t._to); t._to=setTimeout(()=>t.classList.remove('show'),dur);
 }
 function fmt(n){ return Number(n).toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'; }
-
 function showTab(t){
   document.getElementById('tab-membri').classList.toggle('hidden',t!=='membri');
   document.getElementById('tab-cassa').classList.toggle('hidden',t!=='cassa');
@@ -581,204 +531,248 @@ function showTab(t){
   });
   if(t==='cassa') renderCassa();
 }
+function setFilter(f,el){
+  activeFilter=f;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  renderTable();
+}
 
-// ══════════════════════════════════════════════════════
-// RENDER TABLE
-// ══════════════════════════════════════════════════════
-function getPays(memberId, year){
-  const res = Array(12).fill(false);
-  payments.filter(p=>p.membro_id===memberId && p.anno===year).forEach(p=>{ res[p.mese-1]=p.pagato; });
+// ══════════════════════════════════════════
+// PAYMENTS
+// ══════════════════════════════════════════
+function getPays(memberId,year){
+  const res=Array(12).fill(false);
+  payments.filter(p=>p.membro_id===memberId&&p.anno===year).forEach(p=>{res[p.mese-1]=p.pagato;});
   return res;
 }
-function countPaid(memberId, year){ return getPays(memberId,year).filter(Boolean).length * 5; }
+function countPaid(memberId,year){ return getPays(memberId,year).filter(Boolean).length*5; }
 
+// ══════════════════════════════════════════
+// RENDER TABLE
+// ══════════════════════════════════════════
 function renderTable(){
-  const year = parseInt(document.getElementById('yearSelect').value);
-  const q = document.getElementById('searchInput').value.toLowerCase();
-  const filtered = members.filter(m=>(m.nome+' '+m.cognome).toLowerCase().includes(q));
+  const year=parseInt(document.getElementById('yearSelect').value);
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  let filtered=members.filter(m=>(m.nome+' '+m.cognome).toLowerCase().includes(q));
 
-  // Stats
-  const ok  = filtered.filter(m=>countPaid(m.id,year)>=60).length;
-  const par = filtered.filter(m=>{ let t=countPaid(m.id,year); return t>0&&t<60; }).length;
-  const no  = filtered.filter(m=>countPaid(m.id,year)===0).length;
-  const tot = filtered.reduce((a,m)=>a+countPaid(m.id,year),0);
+  // Filter pills
+  if(activeFilter==='completo') filtered=filtered.filter(m=>countPaid(m.id,year)>=60);
+  else if(activeFilter==='parziale') filtered=filtered.filter(m=>{const t=countPaid(m.id,year);return t>0&&t<60;});
+  else if(activeFilter==='zero') filtered=filtered.filter(m=>countPaid(m.id,year)===0);
+
+  const ok  = members.filter(m=>countPaid(m.id,year)>=60).length;
+  const par = members.filter(m=>{const t=countPaid(m.id,year);return t>0&&t<60;}).length;
+  const no  = members.filter(m=>countPaid(m.id,year)===0).length;
+  const tot = members.reduce((a,m)=>a+countPaid(m.id,year),0);
+
   document.getElementById('statsRow').innerHTML=`
-    <div class="stat-card"><div class="sl">Membri</div><div class="sv">${filtered.length}</div></div>
-    <div class="stat-card"><div class="sl">✅ Completo ${year}</div><div class="sv">${ok}</div></div>
-    <div class="stat-card gold-c"><div class="sl">⏳ Parziale</div><div class="sv">${par}</div></div>
-    <div class="stat-card red-c"><div class="sl">❌ Non pagato</div><div class="sv">${no}</div></div>
-    <div class="stat-card"><div class="sl">Quote ${year}</div><div class="sv">${fmt(tot)}</div></div>`;
-  document.getElementById('hMembri').textContent = members.length;
+    <div class="sc"><div class="sl">Membri Totali</div><div class="sv">${members.length}</div><div class="ss">nel registro</div></div>
+    <div class="sc"><div class="sl">✅ Completo ${year}</div><div class="sv">${ok}</div><div class="ss">quota 60€ pagata</div></div>
+    <div class="sc gold"><div class="sl">⏳ Parziale</div><div class="sv">${par}</div><div class="ss">pagamento incompleto</div></div>
+    <div class="sc red"><div class="sl">❌ Non pagato</div><div class="sv">${no}</div><div class="ss">nessun versamento</div></div>
+    <div class="sc"><div class="sl">Quote raccolte ${year}</div><div class="sv">${fmt(tot)}</div></div>`;
+  document.getElementById('hMembri').textContent=members.length;
 
-  const tbody = document.getElementById('tableBody');
+  const tbody=document.getElementById('tableBody');
   tbody.innerHTML='';
+
+  if(filtered.length===0){
+    tbody.innerHTML=`<tr><td colspan="16" style="text-align:center;padding:32px;color:var(--t3);font-size:.88rem">Nessun membro trovato</td></tr>`;
+    return;
+  }
+
   filtered.forEach(m=>{
-    const pays = getPays(m.id, year);
-    const tot  = pays.filter(Boolean).length * 5;
+    const pays=getPays(m.id,year);
+    const tot=pays.filter(Boolean).length*5;
     let sb;
     if(tot>=60) sb=`<span class="sbadge s-ok">✅ Completo</span>`;
-    else if(tot>0) sb=`<span class="sbadge s-par">⏳ Parziale</span>`;
-    else sb=`<span class="sbadge s-no">—</span>`;
-    const mcells = pays.map((p,mi)=>`<td><button class="mb ${p?'paid':''}" onclick="toggleMonth(${m.id},${year},${mi+1},${p?'true':'false'})" title="${MONTHS[mi]} ${year}">${p?'✓':''}</button></td>`).join('');
+    else if(tot>0) sb=`<span class="sbadge s-par">⏳ ${tot}€/60€</span>`;
+    else sb=`<span class="sbadge s-no">— non pagato</span>`;
+
+    const mcells=pays.map((p,mi)=>`
+      <td><button class="mb ${p?'paid':''}" onclick="toggleMonth(${m.id},${year},${mi+1},${p})"
+        title="${p?'Clicca per rimuovere':'Clicca per segnare pagato'} — ${MONTHS[mi]} ${year}">${p?'✓':''}</button></td>`).join('');
+
     tbody.insertAdjacentHTML('beforeend',`
       <tr>
-        <td class="td-name">${m.nome} ${m.cognome}<small>${m.telefono||'—'}</small></td>
+        <td class="td-n">
+          ${m.nome} ${m.cognome}
+          <small>${m.telefono||'—'}</small>
+        </td>
         ${mcells}
-        <td class="td-tot">${tot} €</td>
+        <td class="td-tot">${tot}€</td>
         <td>${sb}</td>
-        <td><button class="btn outline" style="padding:3px 9px;font-size:0.72rem" onclick="delMember(${m.id})">🗑</button></td>
+        <td>
+          <button class="btn-ghost" onclick="editMember(${m.id})" title="Modifica">✏️</button>
+          <button class="btn-ghost" onclick="delMember(${m.id})" title="Elimina" style="margin-left:3px">🗑</button>
+        </td>
       </tr>`);
   });
 }
 
-// ══════════════════════════════════════════════════════
-// TOGGLE MONTH — salva su Supabase
-// ══════════════════════════════════════════════════════
-async function toggleMonth(memberId, year, mese, wasPaid){
-  // Aggiorna subito UI
-  const newVal = !wasPaid;
-  const idx = payments.findIndex(p=>p.membro_id===memberId && p.anno===year && p.mese===mese);
-  if(idx>=0) payments[idx].pagato = newVal;
-  else payments.push({membro_id:memberId, anno:year, mese, pagato:newVal});
+// ══════════════════════════════════════════
+// TOGGLE MONTH
+// ══════════════════════════════════════════
+async function toggleMonth(memberId,year,mese,wasPaid){
+  const newVal=!wasPaid;
+  const idx=payments.findIndex(p=>p.membro_id===memberId&&p.anno===year&&p.mese===mese);
+  if(idx>=0) payments[idx].pagato=newVal;
+  else payments.push({membro_id:memberId,anno:year,mese,pagato:newVal,id:Date.now()});
   renderTable();
-
   try {
-    // Upsert su Supabase
-    await fetch(SUPA_URL+"/rest/v1/pagamenti", {
-      method:"POST",
-      headers:{...H,"Prefer":"resolution=merge-duplicates,return=minimal"},
-      body: JSON.stringify({membro_id:memberId, anno:year, mese, pagato:newVal})
-    });
-    toast(newVal ? "✅ Pagamento registrato" : "↩️ Pagamento rimosso");
-  } catch(e){
-    toast("❌ Errore salvataggio: "+e.message, 4000);
-  }
+    await sbUpsert("pagamenti",{membro_id:memberId,anno:year,mese,pagato:newVal});
+    toast(newVal?"✅ Pagamento registrato":"↩️ Pagamento rimosso");
+  } catch(e){ toast("❌ Errore salvataggio",4000); }
 }
 
-// ══════════════════════════════════════════════════════
-// ADD / DELETE MEMBER
-// ══════════════════════════════════════════════════════
-function openAddMember(){ document.getElementById('modalOverlay').classList.add('open'); }
-function closeModal(e){ if(!e||e.target===document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open'); }
-
+// ══════════════════════════════════════════
+// MEMBER CRUD
+// ══════════════════════════════════════════
+function openAddMember(){
+  editingMemberId=null;
+  document.getElementById('modalTitle').textContent='➕ Nuovo Membro';
+  document.getElementById('modalSaveBtn').textContent='Salva';
+  ['fNome','fCognome','fTel','fDdn','fAddr'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function editMember(id){
+  const m=members.find(x=>x.id===id);
+  if(!m) return;
+  editingMemberId=id;
+  document.getElementById('modalTitle').textContent='✏️ Modifica Membro';
+  document.getElementById('modalSaveBtn').textContent='Aggiorna';
+  document.getElementById('fNome').value=m.nome;
+  document.getElementById('fCognome').value=m.cognome;
+  document.getElementById('fTel').value=m.telefono||'';
+  document.getElementById('fDdn').value=m.ddn||'';
+  document.getElementById('fAddr').value=m.indirizzo||'';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(e){
+  if(!e||e.target===document.getElementById('modalOverlay'))
+    document.getElementById('modalOverlay').classList.remove('open');
+}
 async function saveMember(){
-  const nome    = document.getElementById('fNome').value.trim().toUpperCase();
-  const cognome = document.getElementById('fCognome').value.trim().toUpperCase();
-  if(!nome||!cognome){ alert('Nome e Cognome obbligatori'); return; }
+  const nome=document.getElementById('fNome').value.trim().toUpperCase();
+  const cognome=document.getElementById('fCognome').value.trim().toUpperCase();
+  if(!nome||!cognome){alert('Nome e Cognome sono obbligatori');return;}
+  const data={nome,cognome,telefono:document.getElementById('fTel').value.trim(),
+    indirizzo:document.getElementById('fAddr').value.trim(),ddn:document.getElementById('fDdn').value.trim()};
   try {
-    const res = await sbPost("membri",[{nome,cognome,
-      telefono:document.getElementById('fTel').value.trim(),
-      indirizzo:document.getElementById('fAddr').value.trim(),
-      ddn:document.getElementById('fDdn').value.trim()
-    }]);
-    members.push(res[0]);
-    ['fNome','fCognome','fTel','fDdn','fAddr'].forEach(id=>document.getElementById(id).value='');
+    if(editingMemberId){
+      const res=await sbPatch("membri",editingMemberId,data);
+      const idx=members.findIndex(m=>m.id===editingMemberId);
+      if(idx>=0) members[idx]={...members[idx],...(res[0]||data)};
+      toast("✅ Membro aggiornato!");
+    } else {
+      const res=await sbPost("membri",[data]);
+      members.push(res[0]);
+      toast("✅ Membro aggiunto!");
+    }
     closeModal();
     renderTable();
-    toast("✅ Membro aggiunto!");
-  } catch(e){ toast("❌ Errore: "+e.message, 4000); }
+  } catch(e){ toast("❌ Errore: "+e.message,5000); }
 }
-
 async function delMember(id){
-  if(!confirm('Eliminare questo membro e tutti i suoi pagamenti?')) return;
+  const m=members.find(x=>x.id===id);
+  if(!confirm(`Eliminare ${m?.nome} ${m?.cognome} e tutti i suoi pagamenti?`)) return;
   try {
-    await sbDelete("membri", id);
-    members = members.filter(m=>m.id!==id);
-    payments = payments.filter(p=>p.membro_id!==id);
-    renderTable();
-    toast("🗑 Membro eliminato");
-  } catch(e){ toast("❌ Errore: "+e.message, 4000); }
+    await sbDelete("membri",id);
+    members=members.filter(x=>x.id!==id);
+    payments=payments.filter(x=>x.membro_id!==id);
+    renderTable(); toast("🗑 Membro eliminato");
+  } catch(e){ toast("❌ Errore: "+e.message,4000); }
 }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 // CASSA
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 function renderCassa(){
-  const totE = entrate.reduce((a,x)=>a+Number(x.importo),0);
-  const totU = uscite.reduce((a,x)=>a+Number(x.importo),0);
-  const saldo = totE - totU;
-  document.getElementById('totE').textContent = fmt(totE);
-  document.getElementById('totU').textContent = fmt(totU);
-  document.getElementById('saldoC').textContent = fmt(saldo);
-  document.getElementById('totEbot').textContent = fmt(totE);
-  document.getElementById('totUbot').textContent = fmt(totU);
-  document.getElementById('saldoFin').textContent = fmt(saldo);
-  document.getElementById('hSaldo').textContent = fmt(saldo);
+  const totE=entrate.reduce((a,x)=>a+Number(x.importo),0);
+  const totU=uscite.reduce((a,x)=>a+Number(x.importo),0);
+  const saldo=totE-totU;
+  ['totE','totEbot'].forEach(id=>document.getElementById(id).textContent=fmt(totE));
+  ['totU','totUbot'].forEach(id=>document.getElementById(id).textContent=fmt(totU));
+  ['saldoC','saldoFin'].forEach(id=>document.getElementById(id).textContent=fmt(saldo));
+  document.getElementById('hSaldo').textContent=fmt(saldo);
 
-  document.getElementById('entraList').innerHTML = entrate.map((x,i)=>`
-    <li>
-      <div><div>${x.descrizione}</div><div class="cd">${x.data_mov||'—'}</div></div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span class="ca e">${fmt(x.importo)}</span>
-        <button onclick="delCassa(${x.id},'entrata',${i})" style="border:none;background:none;cursor:pointer;color:#999">✕</button>
-      </div>
-    </li>`).join('');
+  const mkList=(arr,tipo)=>arr.length===0
+    ?`<li class="clist-empty">Nessuna voce</li>`
+    :arr.map((x,i)=>`
+      <li>
+        <div class="c-desc">
+          <div>${x.descrizione}</div>
+          <div class="cd">${x.data_mov||'—'}</div>
+        </div>
+        <div class="c-right">
+          <span class="ca ${tipo}">${fmt(x.importo)}</span>
+          <button class="cdel" onclick="delCassa(${x.id},'${tipo}',${i})">✕</button>
+        </div>
+      </li>`).join('');
 
-  document.getElementById('usciteList').innerHTML = uscite.map((x,i)=>`
-    <li>
-      <div><div>${x.descrizione}</div><div class="cd">${x.data_mov||'—'}</div></div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span class="ca u">${fmt(x.importo)}</span>
-        <button onclick="delCassa(${x.id},'uscita',${i})" style="border:none;background:none;cursor:pointer;color:#999">✕</button>
-      </div>
-    </li>`).join('');
+  document.getElementById('entraList').innerHTML=mkList(entrate,'e');
+  document.getElementById('usciteList').innerHTML=mkList(uscite,'u');
 }
 
 async function addEntrata(){
   const data=document.getElementById('eData').value.trim();
   const desc=document.getElementById('eDesc').value.trim();
   const amt=parseFloat(document.getElementById('eAmt').value);
-  if(!desc||isNaN(amt)||amt<=0){ alert('Inserisci descrizione e importo'); return; }
+  if(!desc||isNaN(amt)||amt<=0){alert('Inserisci descrizione e importo');return;}
   try {
-    const res = await sbPost("cassa",[{tipo:"entrata",data_mov:data,descrizione:desc,importo:amt}]);
+    const res=await sbPost("cassa",[{tipo:"entrata",data_mov:data,descrizione:desc,importo:amt}]);
     entrate.push(res[0]);
-    document.getElementById('eData').value=''; document.getElementById('eDesc').value=''; document.getElementById('eAmt').value='';
+    document.getElementById('eData').value='';
+    document.getElementById('eDesc').value='';
+    document.getElementById('eAmt').value='';
     renderCassa(); toast("✅ Entrata salvata!");
   } catch(e){ toast("❌ Errore: "+e.message,4000); }
 }
-
 async function addUscita(){
   const data=document.getElementById('uData').value.trim();
   const desc=document.getElementById('uDesc').value.trim();
   const amt=parseFloat(document.getElementById('uAmt').value);
-  if(!desc||isNaN(amt)||amt<=0){ alert('Inserisci descrizione e importo'); return; }
+  if(!desc||isNaN(amt)||amt<=0){alert('Inserisci descrizione e importo');return;}
   try {
-    const res = await sbPost("cassa",[{tipo:"uscita",data_mov:data,descrizione:desc,importo:amt}]);
+    const res=await sbPost("cassa",[{tipo:"uscita",data_mov:data,descrizione:desc,importo:amt}]);
     uscite.push(res[0]);
-    document.getElementById('uData').value=''; document.getElementById('uDesc').value=''; document.getElementById('uAmt').value='';
+    document.getElementById('uData').value='';
+    document.getElementById('uDesc').value='';
+    document.getElementById('uAmt').value='';
     renderCassa(); toast("✅ Uscita salvata!");
   } catch(e){ toast("❌ Errore: "+e.message,4000); }
 }
-
-async function delCassa(id, tipo, idx){
+async function delCassa(id,tipo,idx){
   if(!confirm('Eliminare questa voce?')) return;
   try {
-    await sbDelete("cassa", id);
-    if(tipo==='entrata') entrate.splice(idx,1);
+    await sbDelete("cassa",id);
+    if(tipo==='e') entrate.splice(idx,1);
     else uscite.splice(idx,1);
     renderCassa(); toast("🗑 Voce eliminata");
   } catch(e){ toast("❌ Errore: "+e.message,4000); }
 }
 
-// ══════════════════════════════════════════════════════
-// EXPORT CSV
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
+// EXPORT
+// ══════════════════════════════════════════
 function exportCSV(){
-  const year = parseInt(document.getElementById('yearSelect').value);
-  const header=['Nome','Cognome','Telefono',...MONTHS,'Totale €','Stato'].join(';');
-  const rows = members.map(m=>{
+  const year=parseInt(document.getElementById('yearSelect').value);
+  const header=['Nome','Cognome','Telefono','Indirizzo',...MONTHS,'Totale €','Stato'].join(';');
+  const rows=members.map(m=>{
     const pays=getPays(m.id,year);
     const tot=pays.filter(Boolean).length*5;
-    return [m.nome,m.cognome,m.telefono,...pays.map(p=>p?5:0),tot,tot>=60?'Completo':tot>0?'Parziale':'Non pagato'].join(';');
+    return [m.nome,m.cognome,m.telefono,m.indirizzo,...pays.map(p=>p?5:0),tot,
+      tot>=60?'Completo':tot>0?'Parziale':'Non pagato'].join(';');
   });
   const blob=new Blob(['\uFEFF'+[header,...rows].join('\n')],{type:'text/csv;charset=utf-8'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download=`Dahira_Quote_${year}.csv`; a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`Dahira_Quote_${year}.csv`;a.click();
 }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 // START
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 init();
 </script>
 </body>
