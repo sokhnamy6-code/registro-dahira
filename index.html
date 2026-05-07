@@ -683,10 +683,18 @@ function renderTable(){
 async function toggleMonth(mid,yr,mese,was){
   const nv=!was;
   const idx=payments.findIndex(p=>p.membro_id===mid&&p.anno===yr&&p.mese===mese);
-  if(idx>=0)payments[idx].pagato=nv;else payments.push({membro_id:mid,anno:yr,mese,pagato:nv,id:Date.now()});
+  if(idx>=0)payments[idx].pagato=nv;
+  else payments.push({membro_id:mid,anno:yr,mese,pagato:nv,id:Date.now()});
   renderTable();
-  try{await sbUpsert("pagamenti",{membro_id:mid,anno:yr,mese,pagato:nv});toast(nv?"✅ Pagamento registrato":"↩️ Rimosso");}
-  catch(e){toast("❌ Errore salvataggio",4000);}
+  try{
+    if(nv){
+      await sbUpsert("pagamenti",{membro_id:mid,anno:yr,mese,pagato:true});
+    } else {
+      await fetch(`${SU}/rest/v1/pagamenti?membro_id=eq.${mid}&anno=eq.${yr}&mese=eq.${mese}`,
+        {method:"DELETE",headers:H});
+    }
+    toast(nv?"✅ Pagamento registrato":"↩️ Rimosso");
+  }catch(e){toast("❌ Errore: "+e.message,4000);}
 }
 
 // ══════════════════════════════════════
