@@ -452,6 +452,41 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 </div>
 </main>
 
+<!-- MODAL DETTAGLIO MEMBRO -->
+<div class="overlay" id="modalDettaglio" onclick="closeModal('modalDettaglio',event)">
+  <div class="modal" style="max-width:580px">
+    <h2 id="detNome" style="margin-bottom:16px">👤 Membro</h2>
+    <div id="detInfo" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;font-size:.85rem"></div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--g1);font-weight:600;margin-bottom:10px">📅 Storico Pagamenti</p>
+    <div id="detStorico" style="overflow-x:auto;border-radius:10px;border:1.5px solid var(--border)"></div>
+    <div style="margin-top:14px;padding:12px 16px;background:var(--gs);border-radius:10px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:.82rem;color:var(--t3)">💰 Totale versato (tutti gli anni)</span>
+      <span id="detTotale" style="font-weight:700;font-size:1.1rem;color:var(--g2)"></span>
+    </div>
+    <div class="mact">
+      <button class="btn btn-outline" onclick="closeModal('modalDettaglio')">Chiudi</button>
+      <button class="btn btn-green" id="detEditBtn">✏️ Modifica</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETTAGLIO MEMBRO -->
+<div class="overlay" id="modalDettaglio" onclick="closeModal('modalDettaglio',event)">
+  <div class="modal" style="max-width:620px">
+    <h2 id="detNome">👤 Dettaglio Membro</h2>
+    <div id="detInfo" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;font-size:.85rem"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--g1);margin-bottom:12px;font-weight:600">📅 Storico Pagamenti per Anno</div>
+    <div id="detStorico" style="overflow-x:auto"></div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1.5px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:.7rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Totale versato</div>
+        <div id="detTotale" style="font-size:1.5rem;font-weight:700;color:var(--g2)"></div>
+      </div>
+      <button class="btn btn-outline" onclick="closeModal('modalDettaglio')">Chiudi</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL MEMBRO -->
 <div class="overlay" id="modalMembro" onclick="closeModal('modalMembro',event)">
   <div class="modal">
@@ -856,7 +891,10 @@ function renderTable() {
         ${p ? '✓' : ''}
       </button></td>`).join('');
     tb.insertAdjacentHTML('beforeend', `<tr>
-      <td class="td-n">${m.nome} ${m.cognome}<small>${m.telefono || '—'}</small></td>
+      <td class="td-n" onclick="openDettaglio(${m.id})" style="cursor:pointer" title="Clicca per vedere i dettagli">
+        <span style="color:var(--g2);text-decoration:underline dotted">${m.nome} ${m.cognome}</span>
+        <small>${m.telefono || '—'}</small>
+      </td>
       ${mc}
       <td class="td-tot">${tot}€</td>
       <td>${sb}</td>
@@ -902,8 +940,78 @@ async function toggleMonth(mid, yr, mese, wasPaid) {
 }
 
 // ══════════════════════════════════════════════
-// MEMBER CRUD
+// DETTAGLIO MEMBRO
 // ══════════════════════════════════════════════
+function openDettaglio(id) {
+  const m = members.find(x => x.id === id);
+  if (!m) return;
+
+  document.getElementById('detNome').textContent = '👤 ' + m.nome + ' ' + m.cognome;
+
+  // Info personali
+  document.getElementById('detInfo').innerHTML = `
+    <div style="background:var(--gs);border-radius:8px;padding:10px 12px">
+      <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:3px">Telefono</div>
+      <div style="font-weight:600">${m.telefono || '—'}</div>
+    </div>
+    <div style="background:var(--gs);border-radius:8px;padding:10px 12px">
+      <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:3px">Data di Nascita</div>
+      <div style="font-weight:600">${m.ddn || '—'}</div>
+    </div>
+    <div style="background:var(--gs);border-radius:8px;padding:10px 12px;grid-column:1/-1">
+      <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:3px">Indirizzo</div>
+      <div style="font-weight:600">${m.indirizzo || '—'}</div>
+    </div>`;
+
+  // Storico pagamenti per anno
+  const anni = [2022,2023,2024,2025,2026,2027];
+  let totaleGlobale = 0;
+
+  let rows = anni.map(yr => {
+    const pays = getPays(m.id, yr);
+    const tot = pays.filter(Boolean).length * 5;
+    totaleGlobale += tot;
+    if (tot === 0) return ''; // nascondi anni senza pagamenti
+    const stato = tot >= 60
+      ? `<span class="sbadge s-ok">✅ Completo</span>`
+      : `<span class="sbadge s-par">⏳ ${tot}€/60€</span>`;
+    const celle = pays.map((p, i) => `
+      <td style="text-align:center;padding:5px 3px">
+        <span style="display:inline-flex;width:24px;height:22px;border-radius:4px;align-items:center;justify-content:center;font-size:.75rem;
+          background:${p ? 'var(--gl)' : '#F4F4F2'};color:${p ? 'var(--g2)' : 'var(--t3)'};
+          border:1.5px solid ${p ? '#6dba8e' : 'var(--border)'};font-weight:700">
+          ${p ? '✓' : ''}
+        </span>
+      </td>`).join('');
+    return `<tr style="border-bottom:1px solid var(--border)">
+      <td style="padding:6px 10px;font-weight:700;color:var(--g1);white-space:nowrap">${yr}</td>
+      ${celle}
+      <td style="padding:6px 8px;font-weight:700;color:var(--g2);white-space:nowrap">${tot}€</td>
+      <td style="padding:6px 8px">${stato}</td>
+    </tr>`;
+  }).filter(r => r !== '').join('');
+
+  if (!rows) rows = `<tr><td colspan="16" style="text-align:center;padding:20px;color:var(--t3)">Nessun pagamento registrato</td></tr>`;
+
+  document.getElementById('detStorico').innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:.75rem">
+      <thead>
+        <tr style="background:var(--g1);color:#fff">
+          <th style="padding:8px 10px;text-align:left">Anno</th>
+          ${MS.map(m => `<th style="padding:8px 3px;text-align:center;width:32px">${m}</th>`).join('')}
+          <th style="padding:8px 8px">Tot</th>
+          <th style="padding:8px 8px">Stato</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+
+  document.getElementById('detTotale').textContent = fmt(totaleGlobale);
+  document.getElementById('detEditBtn').onclick = () => { closeModal('modalDettaglio'); editMember(id); };
+  document.getElementById('modalDettaglio').classList.add('open');
+}
+
+
 function openAddMember() {
   editingMemberId = null;
   document.getElementById('modalMembroTitle').textContent = '➕ Nuovo Membro';
@@ -1213,6 +1321,80 @@ async function delInv(id, idx) {
   inventario.splice(idx, 1);
   renderInventario();
   toast("🗑 Eliminato", 'ok');
+}
+
+// ══════════════════════════════════════════════
+// DETTAGLIO MEMBRO
+// ══════════════════════════════════════════════
+function openDettaglio(id) {
+  const m = members.find(x => x.id === id);
+  if (!m) return;
+
+  document.getElementById('detNome').textContent = '👤 ' + m.nome + ' ' + m.cognome;
+
+  // Info personali
+  document.getElementById('detInfo').innerHTML = `
+    <div style="background:var(--gs);border-radius:8px;padding:10px">
+      <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Telefono</div>
+      <div style="font-weight:600">${m.telefono || '—'}</div>
+    </div>
+    <div style="background:var(--gs);border-radius:8px;padding:10px">
+      <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Data di Nascita</div>
+      <div style="font-weight:600">${m.ddn || '—'}</div>
+    </div>
+    <div style="background:var(--gs);border-radius:8px;padding:10px;grid-column:1/-1">
+      <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Indirizzo</div>
+      <div style="font-weight:600">${m.indirizzo || '—'}</div>
+    </div>`;
+
+  // Storico per anno
+  const anni = [2022, 2023, 2024, 2025, 2026, 2027];
+  let totaleComplessivo = 0;
+  let storicoHTML = '<table style="width:100%;border-collapse:collapse;font-size:.8rem">';
+  storicoHTML += `<thead><tr style="background:var(--g1);color:#fff">
+    <th style="padding:8px 10px;text-align:left;border-radius:8px 0 0 0">Anno</th>
+    ${MS.map(m => `<th style="padding:8px 4px;width:36px">${m}</th>`).join('')}
+    <th style="padding:8px 10px;border-radius:0 8px 0 0">Totale</th>
+    <th style="padding:8px 6px">Stato</th>
+  </tr></thead><tbody>`;
+
+  anni.forEach((yr, ri) => {
+    const pays = getPays(m.id, yr);
+    const tot = pays.filter(Boolean).length * 5;
+    if (tot === 0 && !pays.some(Boolean)) {
+      // Nessun pagamento per quest'anno — salto
+      return;
+    }
+    totaleComplessivo += tot;
+    const bg = ri % 2 === 0 ? 'var(--white)' : 'var(--gs)';
+    const stato = tot >= 60
+      ? `<span class="sbadge s-ok">✅ Completo</span>`
+      : tot > 0 ? `<span class="sbadge s-par">⏳ ${tot}€</span>`
+      : `<span class="sbadge s-no">—</span>`;
+    const celle = pays.map(p =>
+      `<td style="text-align:center;padding:6px 2px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:22px;border-radius:4px;
+          background:${p ? 'var(--gl)' : '#F4F4F2'};border:1.5px solid ${p ? '#6dba8e' : 'var(--border)'};
+          font-size:${p ? '.8rem' : '0'};color:var(--g2);font-weight:700">${p ? '✓' : ''}</span>
+      </td>`).join('');
+    storicoHTML += `<tr style="background:${bg};border-bottom:1px solid var(--border)">
+      <td style="padding:7px 10px;font-weight:700;color:var(--g1)">${yr}</td>
+      ${celle}
+      <td style="padding:7px 10px;font-weight:700;color:var(--g2)">${tot}€</td>
+      <td style="padding:7px 6px">${stato}</td>
+    </tr>`;
+  });
+
+  storicoHTML += '</tbody></table>';
+
+  // Se nessun anno ha pagamenti
+  if (totaleComplessivo === 0) {
+    storicoHTML = `<div style="text-align:center;padding:20px;color:var(--t3)">Nessun pagamento registrato</div>`;
+  }
+
+  document.getElementById('detStorico').innerHTML = storicoHTML;
+  document.getElementById('detTotale').textContent = fmt(totaleComplessivo);
+  document.getElementById('modalDettaglio').classList.add('open');
 }
 
 // ══════════════════════════════════════════════
