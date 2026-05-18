@@ -267,6 +267,30 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 .ifield input:focus{border-color:var(--blue)}
 
 .hidden{display:none!important}
+
+/* LOGIN */
+#loginScreen{position:fixed;inset:0;background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 60%,var(--g3) 100%);
+  z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{background:var(--white);border-radius:20px;padding:36px 32px;width:100%;max-width:380px;
+  box-shadow:0 24px 80px rgba(0,0,0,.3);text-align:center}
+.login-logo{margin:0 auto 16px}
+.login-box h2{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--g1);margin-bottom:4px}
+.login-box p{font-size:.8rem;color:var(--t3);margin-bottom:24px}
+.login-field{margin-bottom:14px;text-align:left}
+.login-field label{display:block;font-size:.72rem;font-weight:600;color:var(--t3);
+  text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.login-field input{width:100%;border:1.5px solid var(--border);border-radius:10px;
+  padding:11px 14px;font-family:inherit;font-size:.9rem;outline:none;transition:.2s;background:var(--bg)}
+.login-field input:focus{border-color:var(--g2);background:var(--white)}
+.login-err{color:var(--red);font-size:.8rem;margin-bottom:12px;min-height:20px;text-align:center}
+.login-btn{width:100%;background:var(--g2);color:#fff;border:none;border-radius:10px;
+  padding:12px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:.2s;margin-top:4px}
+.login-btn:hover{background:var(--g3)}
+.login-divider{display:flex;align-items:center;gap:10px;margin:18px 0;color:var(--t3);font-size:.75rem}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.viewer-btn{width:100%;background:var(--white);color:var(--g2);border:1.5px solid var(--g2);
+  border-radius:10px;padding:11px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:.2s}
+.viewer-btn:hover{background:var(--gl)}
 </style>
 </head>
 <body>
@@ -274,6 +298,48 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 <div id="loader"></div>
 <div id="toast"></div>
 <div id="saveIndicator">💾 Salvato</div>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg viewBox="0 0 100 100" width="72" height="72" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="18" fill="#0D4A26"/>
+        <path d="M50 15 A22 22 0 1 1 50 59 A16 16 0 1 0 50 15Z" fill="#C9A84C"/>
+        <text x="50" y="78" text-anchor="middle" font-family="Georgia,serif" font-size="14" font-weight="bold" fill="#C9A84C">Dahira</text>
+        <text x="50" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#fff">SD</text>
+      </svg>
+    </div>
+    <h2>Dahira Sokhna Diarra</h2>
+    <p>Accedi per continuare</p>
+
+    <!-- ADMIN LOGIN -->
+    <div id="adminSection">
+      <div class="login-field">
+        <label>Username</label>
+        <input type="text" id="loginUser" placeholder="Username" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="login-field">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="login-err" id="loginErr"></div>
+      <button class="login-btn" onclick="doLogin()">🔐 Accedi come Admin</button>
+    </div>
+
+    <div class="login-divider">oppure</div>
+
+    <!-- VIEWER LOGIN -->
+    <div id="viewerSection">
+      <div class="login-field">
+        <label>Password Visualizzazione</label>
+        <input type="password" id="viewerPass" placeholder="Password viewer" onkeydown="if(event.key==='Enter')doViewerLogin()">
+      </div>
+      <div class="login-err" id="viewerErr"></div>
+      <button class="viewer-btn" onclick="doViewerLogin()">👁️ Accedi come Visualizzatore</button>
+    </div>
+  </div>
+</div>
 
 <header>
   <div class="h-logo">
@@ -297,8 +363,31 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
       <div class="hl">Membri</div>
       <div class="hv" id="hMembri">…</div>
     </div>
+    <div class="hbadge" onclick="toggleProfilo()" id="profiloBadge" style="min-width:70px">
+      <div class="hl">Accesso</div>
+      <div class="hv" id="profiloRuolo">…</div>
+    </div>
   </div>
 </header>
+
+<!-- MENU PROFILO -->
+<div id="profiloMenu" style="display:none;position:fixed;top:72px;right:16px;z-index:500;
+  background:var(--white);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.18);
+  border:1.5px solid var(--border);min-width:220px;overflow:hidden;animation:mIn .2s ease">
+  <div style="background:var(--g1);padding:14px 18px;color:#fff">
+    <div style="font-size:.7rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Connesso come</div>
+    <div id="profiloNome" style="font-weight:700;font-size:1rem"></div>
+    <div id="profiloTipo" style="font-size:.75rem;opacity:.8;margin-top:2px"></div>
+  </div>
+  <div style="padding:10px 8px">
+    <button onclick="logout()" style="width:100%;background:var(--red-l);color:var(--red);
+      border:1.5px solid var(--red);border-radius:8px;padding:10px 14px;
+      font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s;
+      display:flex;align-items:center;gap:8px;justify-content:center">
+      🔓 Disconnetti / Cambia Account
+    </button>
+  </div>
+</div>
 
 <nav>
   <button class="active" onclick="showTab('membri')">👥 Membri</button>
@@ -523,6 +612,98 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 </div>
 
 <script>
+// ══════════════════════════════════════════════
+// LOGIN
+// ══════════════════════════════════════════════
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "DahiraSD2024!";
+const VIEWER_PASS = "toubafano";
+let isAdmin = false;
+let isLoggedIn = false;
+
+function doLogin() {
+  const user = document.getElementById('loginUser').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  if (user === ADMIN_USER && pass === ADMIN_PASS) {
+    isAdmin = true;
+    isLoggedIn = true;
+    sessionStorage.setItem('dahira_role', 'admin');
+    enterApp();
+  } else {
+    document.getElementById('loginErr').textContent = '❌ Username o password errati';
+    document.getElementById('loginPass').value = '';
+  }
+}
+
+function doViewerLogin() {
+  const pass = document.getElementById('viewerPass').value;
+  if (pass === VIEWER_PASS) {
+    isAdmin = false;
+    isLoggedIn = true;
+    sessionStorage.setItem('dahira_role', 'viewer');
+    enterApp();
+  } else {
+    document.getElementById('viewerErr').textContent = '❌ Password errata';
+    document.getElementById('viewerPass').value = '';
+  }
+}
+
+function enterApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  // Aggiorna badge profilo
+  const ruolo = isAdmin ? '👑 Admin' : '👁️ Viewer';
+  document.getElementById('profiloRuolo').textContent = isAdmin ? '👑' : '👁️';
+  document.getElementById('profiloNome').textContent = isAdmin ? 'Amministratore' : 'Visualizzatore';
+  document.getElementById('profiloTipo').textContent = isAdmin ? 'Accesso completo — puoi modificare tutto' : 'Solo visualizzazione';
+  if (!isAdmin) applyViewerMode();
+  init();
+}
+
+function toggleProfilo() {
+  const menu = document.getElementById('profiloMenu');
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+
+function logout() {
+  sessionStorage.removeItem('dahira_role');
+  document.getElementById('profiloMenu').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('viewerPass').value = '';
+  document.getElementById('loginErr').textContent = '';
+  document.getElementById('viewerErr').textContent = '';
+  isAdmin = false;
+  isLoggedIn = false;
+}
+
+// Chiudi menu profilo cliccando fuori
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('profiloMenu');
+  const badge = document.getElementById('profiloBadge');
+  if (menu && badge && !menu.contains(e.target) && !badge.contains(e.target)) {
+    menu.style.display = 'none';
+  }
+});
+
+function applyViewerMode() {
+  // Nasconde tutti i bottoni di modifica per il viewer
+  const style = document.createElement('style');
+  style.textContent = `
+    .btn-green, .btn-gold, .btn-red, .btn-purple,
+    .btn-ghost, .cadd, .quote-banner, .ev-actions button,
+    #invAdd { display: none !important; }
+    .mb { pointer-events: none !important; opacity: .7; }
+  `;
+  document.head.appendChild(style);
+}
+
+function checkSession() {
+  const role = sessionStorage.getItem('dahira_role');
+  if (role === 'admin') { isAdmin = true; isLoggedIn = true; enterApp(); }
+  else if (role === 'viewer') { isAdmin = false; isLoggedIn = true; enterApp(); }
+}
+
 // ══════════════════════════════════════════════
 // SUPABASE — connessione robusta
 // ══════════════════════════════════════════════
@@ -1417,7 +1598,7 @@ function exportCSV() {
 }
 
 // START
-init();
+checkSession();
 </script>
 </body>
 </html>
