@@ -627,7 +627,7 @@ function doLogin() {
   if (user === ADMIN_USER && pass === ADMIN_PASS) {
     isAdmin = true;
     isLoggedIn = true;
-    sessionStorage.setItem('dahira_role', 'admin');
+    localStorage.setItem('dahira_role', 'admin');
     enterApp();
   } else {
     document.getElementById('loginErr').textContent = '❌ Username o password errati';
@@ -640,7 +640,7 @@ function doViewerLogin() {
   if (pass === VIEWER_PASS) {
     isAdmin = false;
     isLoggedIn = true;
-    sessionStorage.setItem('dahira_role', 'viewer');
+    localStorage.setItem('dahira_role', 'viewer');
     enterApp();
   } else {
     document.getElementById('viewerErr').textContent = '❌ Password errata';
@@ -665,7 +665,7 @@ function toggleProfilo() {
 }
 
 function logout() {
-  sessionStorage.removeItem('dahira_role');
+  localStorage.removeItem('dahira_role');
   document.getElementById('profiloMenu').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('loginUser').value = '';
@@ -699,7 +699,7 @@ function applyViewerMode() {
 }
 
 function checkSession() {
-  const role = sessionStorage.getItem('dahira_role');
+  const role = localStorage.getItem('dahira_role');
   if (role === 'admin') { isAdmin = true; isLoggedIn = true; enterApp(); }
   else if (role === 'viewer') { isAdmin = false; isLoggedIn = true; enterApp(); }
 }
