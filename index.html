@@ -24,6 +24,7 @@
   --border:#E8E4DC;--shadow:rgba(0,0,0,0.06);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:#FAFAF7}
 body{font-family:'Outfit',sans-serif;background:#FAFAF7 !important;color:#111;min-height:100vh;overflow-x:hidden}
 
 /* TOAST */
@@ -412,7 +413,7 @@ font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer;transition:.2
     <div class="search-wrap">
       <input type="text" id="searchInput" placeholder="Cerca nome o cognome…" oninput="renderTable()">
     </div>
-    <select class="yr-sel" id="yearSelect" onchange="renderTable()">
+    <select class="yr-sel" id="yearSelect" onchange="localStorage.setItem('dahira_last_year',this.value);renderTable()">
       <option value="2022">2022</option><option value="2023">2023</option>
       <option value="2024">2024</option><option value="2025" selected>2025</option>
       <option value="2026">2026</option><option value="2027">2027</option>
@@ -665,13 +666,20 @@ function doViewerLogin() {
 
 function enterApp() {
   document.getElementById('loginScreen').style.display = 'none';
-  // Aggiorna badge profilo
-  const ruolo = isAdmin ? '👑 Admin' : '👁️ Viewer';
   document.getElementById('profiloRuolo').textContent = isAdmin ? '👑' : '👁️';
   document.getElementById('profiloNome').textContent = isAdmin ? 'Amministratore' : 'Visualizzatore';
   document.getElementById('profiloTipo').textContent = isAdmin ? 'Accesso completo — puoi modificare tutto' : 'Solo visualizzazione';
+
+  // Ripristina anno salvato
+  const lastYear = localStorage.getItem('dahira_last_year');
+  if (lastYear) document.getElementById('yearSelect').value = lastYear;
+
   if (!isAdmin) applyViewerMode();
-  init();
+  init().then(() => {
+    // Ripristina tab salvato
+    const lastTab = localStorage.getItem('dahira_last_tab');
+    if (lastTab) showTab(lastTab);
+  });
 }
 
 function toggleProfilo() {
@@ -839,6 +847,7 @@ function showTab(t) {
   document.querySelectorAll('nav button').forEach((b, i) => {
     b.classList.toggle('active', ['membri','cassa','eventi','inventario'][i] === t);
   });
+  localStorage.setItem('dahira_last_tab', t);
   if (t === 'cassa') renderCassa();
   if (t === 'eventi') renderEventi();
   if (t === 'inventario') renderInventario();
