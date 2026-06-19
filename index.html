@@ -26,7 +26,6 @@
 html{background:#FAFAF7}
 body{font-family:'Outfit',sans-serif;background:#FAFAF7 !important;color:#111;min-height:100vh;overflow-x:hidden}
 
-/* TOAST */
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);
   background:#111;color:#fff;padding:12px 24px;border-radius:30px;font-size:.84rem;
   font-weight:500;z-index:9999;transition:.4s cubic-bezier(.34,1.56,.64,1);
@@ -36,13 +35,11 @@ body{font-family:'Outfit',sans-serif;background:#FAFAF7 !important;color:#111;mi
 #toast.err{background:#B22222}
 #toast.warn{background:#B8860B}
 
-/* LOADER */
 #loader{position:fixed;top:0;left:0;width:0%;height:3px;
   background:linear-gradient(90deg,var(--g2),var(--gold));
   z-index:9999;transition:width .4s ease,opacity .5s ease}
 #loader.done{opacity:0}
 
-/* SAVE INDICATOR */
 #saveIndicator{position:fixed;top:12px;right:16px;z-index:999;
   background:rgba(26,107,60,.9);color:#fff;border-radius:20px;
   padding:5px 12px;font-size:.72rem;font-weight:600;letter-spacing:.3px;
@@ -51,7 +48,6 @@ body{font-family:'Outfit',sans-serif;background:#FAFAF7 !important;color:#111;mi
 #saveIndicator.saved{opacity:1;background:rgba(26,107,60,.9)}
 #saveIndicator.error{opacity:1;background:rgba(178,34,34,.9)}
 
-/* HEADER */
 header{background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 60%,var(--g3) 100%);
   color:#fff;padding:16px 20px 12px;display:flex;align-items:center;
   justify-content:space-between;flex-wrap:wrap;gap:10px;
@@ -67,7 +63,6 @@ header{background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 60%,var(--g3) 10
 .hbadge .hl{font-size:.6rem;opacity:.7;text-transform:uppercase;letter-spacing:1.2px}
 .hbadge .hv{font-size:1rem;font-weight:700;margin-top:1px}
 
-/* NAV */
 nav{background:var(--white);border-bottom:1.5px solid var(--border);
   display:flex;padding:0 16px;overflow-x:auto;box-shadow:0 1px 8px var(--shadow)}
 nav button{background:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;
@@ -78,7 +73,6 @@ nav button:hover:not(.active){color:var(--t1)}
 
 main{max-width:1440px;margin:0 auto;padding:20px 14px 70px}
 
-/* TOOLBAR */
 .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
 .search-wrap{flex:1;min-width:160px;position:relative}
 .search-wrap input{width:100%;background:var(--white);border:1.5px solid var(--border);
@@ -89,7 +83,6 @@ main{max-width:1440px;margin:0 auto;padding:20px 14px 70px}
   padding:9px 12px;font-family:inherit;font-size:.86rem;color:var(--t1);cursor:pointer;outline:none}
 .yr-sel:focus{border-color:var(--g2)}
 
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:5px;border:none;border-radius:10px;
   padding:9px 16px;font-family:inherit;font-size:.83rem;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
 .btn-green{background:var(--g2);color:#fff}.btn-green:hover{background:var(--g3)}
@@ -102,7 +95,6 @@ main{max-width:1440px;margin:0 auto;padding:20px 14px 70px}
   padding:4px 9px;font-family:inherit;font-size:.72rem;cursor:pointer;transition:.15s}
 .btn-ghost:hover{border-color:var(--g2);color:var(--g2)}
 
-/* STATS */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin-bottom:16px}
 .sc{background:var(--white);border-radius:12px;padding:13px 15px;border:1.5px solid var(--border);box-shadow:0 2px 8px var(--shadow)}
 .sc .sl{font-size:.64rem;text-transform:uppercase;letter-spacing:1.1px;color:var(--t3);margin-bottom:4px}
@@ -110,14 +102,12 @@ main{max-width:1440px;margin:0 auto;padding:20px 14px 70px}
 .sc .ss{font-size:.7rem;color:var(--t3);margin-top:3px}
 .sc.gold .sv{color:var(--gold)}.sc.red .sv{color:var(--red)}.sc.blue .sv{color:var(--blue)}
 
-/* PILLS */
 .pills{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
 .pill{background:var(--white);border:1.5px solid var(--border);border-radius:20px;
   padding:5px 14px;font-size:.76rem;font-weight:500;cursor:pointer;transition:.2s;color:var(--t2)}
 .pill.active{background:var(--g2);color:#fff;border-color:var(--g2)}
 .pill:hover:not(.active){border-color:var(--g2);color:var(--g2)}
 
-/* QUOTE BANNER */
 .quote-banner{background:var(--gold-l);border:1.5px solid var(--gold);border-radius:12px;
   padding:13px 16px;margin-bottom:14px;display:flex;align-items:center;
   justify-content:space-between;flex-wrap:wrap;gap:10px}
@@ -128,7 +118,6 @@ main{max-width:1440px;margin:0 auto;padding:20px 14px 70px}
   border-radius:8px;font-family:inherit;font-size:.82rem;outline:none;background:var(--white)}
 .qb-controls select:focus,.qb-controls input:focus{border-color:var(--gold)}
 
-/* TABLE */
 .tbl-wrap{overflow-x:auto;border-radius:14px;border:1.5px solid var(--border);
   background:var(--white);box-shadow:0 2px 12px var(--shadow)}
 table{width:100%;border-collapse:collapse;font-size:.79rem}
@@ -145,7 +134,6 @@ tbody td.td-n{text-align:left;padding-left:14px;font-weight:600;font-size:.83rem
 tbody td.td-n small{display:block;font-weight:400;color:var(--t3);font-size:.68rem;margin-top:1px}
 tbody td.td-tot{font-weight:700;color:var(--g2)}
 
-/* MONTH BTN */
 .mb{width:28px;height:25px;border-radius:5px;border:1.5px solid var(--border);
   background:#F4F4F2;cursor:pointer;font-size:0;transition:.2s;
   display:inline-flex;align-items:center;justify-content:center;position:relative}
@@ -156,13 +144,11 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 .mb:active:not(.saving){transform:scale(.95)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
-/* STATUS */
 .sbadge{padding:3px 9px;border-radius:20px;font-size:.68rem;font-weight:600;display:inline-block}
 .s-ok{background:var(--gl);color:var(--g1)}
 .s-par{background:var(--gold-l);color:#7a5c00}
 .s-no{background:#F3F4F6;color:var(--t3)}
 
-/* MODAL */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;
   align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(4px)}
 .overlay.open{display:flex}
@@ -180,7 +166,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 .finput:focus{border-color:var(--g2);background:var(--white)}
 .mact{display:flex;gap:8px;margin-top:18px;justify-content:flex-end}
 
-/* CASSA */
 .cassa-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:640px){.cassa-grid{grid-template-columns:1fr}}
 .ccard{background:var(--white);border-radius:14px;border:1.5px solid var(--border);
@@ -220,7 +205,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
   margin-bottom:14px;display:flex;align-items:center;gap:12px;font-weight:600}
 .stitle::after{content:'';flex:1;height:1px;background:var(--border)}
 
-/* ANNO CARDS */
 .anno-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
 .anno-card{background:var(--white);border-radius:12px;border:1.5px solid var(--border);padding:15px;box-shadow:0 2px 8px var(--shadow)}
 .anno-card h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--g1);margin-bottom:10px}
@@ -229,7 +213,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 .ar-l{color:var(--t3)}.ar-v{font-weight:600}
 .ar-v.pos{color:var(--g2)}.ar-v.neg{color:var(--red)}
 
-/* EVENTI */
 .eventi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
 .ev-card{background:var(--white);border-radius:14px;border:1.5px solid var(--border);overflow:hidden;box-shadow:0 2px 10px var(--shadow)}
 .ev-head{background:linear-gradient(135deg,var(--purple),#8B5CF6);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:flex-start}
@@ -245,12 +228,12 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
   padding:5px 0;border-bottom:1px solid var(--border);font-size:.8rem;gap:8px}
 .em-row:last-child{border-bottom:none}
 .em-name{flex:1;font-weight:500}
+.em-date{font-size:.65rem;color:var(--t3);white-space:nowrap}
 .em-input{width:65px;padding:4px 7px;border:1.5px solid var(--border);border-radius:6px;
   font-family:inherit;font-size:.78rem;outline:none;text-align:right}
 .em-input:focus{border-color:var(--purple)}
 .ev-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 
-/* INVENTARIO */
 .inv-wrap{border-radius:14px;border:1.5px solid var(--border);background:var(--white);box-shadow:0 2px 12px var(--shadow);overflow:hidden}
 .inv-table{width:100%;border-collapse:collapse;font-size:.82rem}
 .inv-table thead th{background:linear-gradient(135deg,#0d3a6e,var(--blue));color:#fff;
@@ -269,7 +252,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 
 .hidden{display:none!important}
 
-/* LOGIN */
 #loginScreen{position:fixed;inset:0;
   background:linear-gradient(135deg,#0D4A26 0%,#1A6B3C 60%,#2E8B57 100%);
   z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -304,7 +286,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 <div id="toast"></div>
 <div id="saveIndicator">💾 Salvato</div>
 
-<!-- LOGIN SCREEN -->
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">
@@ -315,8 +296,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
     </div>
     <h2>Dahira Sokhna Diarra</h2>
     <p>Accedi per continuare</p>
-
-    <!-- ADMIN LOGIN -->
     <div id="adminSection">
       <div class="login-field">
         <label>Username</label>
@@ -329,10 +308,7 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
       <div class="login-err" id="loginErr"></div>
       <button class="login-btn" onclick="doLogin()">🔐 Accedi come Admin</button>
     </div>
-
     <div class="login-divider">oppure</div>
-
-    <!-- VIEWER LOGIN -->
     <div id="viewerSection">
       <div class="login-field">
         <label>Password Visualizzazione</label>
@@ -347,7 +323,7 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 <header>
   <div class="h-logo">
     <div style="width:44px;height:44px;border-radius:10px;overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,0.3)">
-      <img src="mamediarra.jpg" alt="Sokhna Diarra" 
+      <img src="mamediarra.jpg" alt="Sokhna Diarra"
         style="width:100%;height:180%;object-fit:cover;object-position:top center;margin-top:0">
     </div>
     <div class="h-brand">
@@ -371,7 +347,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
   </div>
 </header>
 
-<!-- MENU PROFILO -->
 <div id="profiloMenu" style="display:none;position:fixed;top:72px;right:16px;z-index:500;
   background:var(--white);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.18);
   border:1.5px solid var(--border);min-width:220px;overflow:hidden;animation:mIn .2s ease">
@@ -399,7 +374,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 
 <main>
 
-<!-- TAB MEMBRI -->
 <div id="tab-membri">
   <div class="toolbar">
     <div class="search-wrap">
@@ -463,7 +437,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
   </div>
 </div>
 
-<!-- TAB CASSA -->
 <div id="tab-cassa" class="hidden">
   <p class="stitle">💰 Riepilogo Cassa</p>
   <div class="stats" style="margin-bottom:20px">
@@ -505,7 +478,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
   </div>
 </div>
 
-<!-- TAB EVENTI -->
 <div id="tab-eventi" class="hidden">
   <div class="toolbar">
     <p class="stitle" style="flex:1;margin:0">🎉 Eventi & Raccolte Speciali</p>
@@ -517,7 +489,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
   </div>
 </div>
 
-<!-- TAB INVENTARIO -->
 <div id="tab-inventario" class="hidden">
   <p class="stitle">📊 Inventario Cassa Fisico</p>
   <div class="stats" style="margin-bottom:20px">
@@ -544,24 +515,6 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
 
 <!-- MODAL DETTAGLIO MEMBRO -->
 <div class="overlay" id="modalDettaglio" onclick="closeModal('modalDettaglio',event)">
-  <div class="modal" style="max-width:580px">
-    <h2 id="detNome" style="margin-bottom:16px">👤 Membro</h2>
-    <div id="detInfo" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;font-size:.85rem"></div>
-    <p style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--g1);font-weight:600;margin-bottom:10px">📅 Storico Pagamenti</p>
-    <div id="detStorico" style="overflow-x:auto;border-radius:10px;border:1.5px solid var(--border)"></div>
-    <div style="margin-top:14px;padding:12px 16px;background:var(--gs);border-radius:10px;display:flex;justify-content:space-between;align-items:center">
-      <span style="font-size:.82rem;color:var(--t3)">💰 Totale versato (tutti gli anni)</span>
-      <span id="detTotale" style="font-weight:700;font-size:1.1rem;color:var(--g2)"></span>
-    </div>
-    <div class="mact">
-      <button class="btn btn-outline" onclick="closeModal('modalDettaglio')">Chiudi</button>
-      <button class="btn btn-green" id="detEditBtn">✏️ Modifica</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL DETTAGLIO MEMBRO -->
-<div class="overlay" id="modalDettaglio" onclick="closeModal('modalDettaglio',event)">
   <div class="modal" style="max-width:620px">
     <h2 id="detNome">👤 Dettaglio Membro</h2>
     <div id="detInfo" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;font-size:.85rem"></div>
@@ -572,7 +525,10 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
         <div style="font-size:.7rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Totale versato</div>
         <div id="detTotale" style="font-size:1.5rem;font-weight:700;color:var(--g2)"></div>
       </div>
-      <button class="btn btn-outline" onclick="closeModal('modalDettaglio')">Chiudi</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-green" id="detEditBtn">✏️ Modifica</button>
+        <button class="btn btn-outline" onclick="closeModal('modalDettaglio')">Chiudi</button>
+      </div>
     </div>
   </div>
 </div>
@@ -586,6 +542,8 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
       <div><label class="flabel">Cognome *</label><input class="finput" type="text" id="fCognome" placeholder="es. Ba"></div>
       <div><label class="flabel">Telefono</label><input class="finput" type="tel" id="fTel" placeholder="371 000 0000"></div>
       <div><label class="flabel">Data Nascita</label><input class="finput" type="text" id="fDdn" placeholder="gg/mm/aaaa"></div>
+      <div><label class="flabel">📅 Data Ingresso Dahira</label><input class="finput" type="text" id="fIngresso" placeholder="es. 01/03/2025"></div>
+      <div></div>
       <div class="full"><label class="flabel">Indirizzo</label><input class="finput" type="text" id="fAddr" placeholder="Via..."></div>
     </div>
     <div class="mact">
@@ -626,8 +584,7 @@ function doLogin() {
   const user = document.getElementById('loginUser').value.trim();
   const pass = document.getElementById('loginPass').value;
   if (user === ADMIN_USER && pass === ADMIN_PASS) {
-    isAdmin = true;
-    isLoggedIn = true;
+    isAdmin = true; isLoggedIn = true;
     localStorage.setItem('dahira_role', 'admin');
     enterApp();
   } else {
@@ -639,8 +596,7 @@ function doLogin() {
 function doViewerLogin() {
   const pass = document.getElementById('viewerPass').value;
   if (pass === VIEWER_PASS) {
-    isAdmin = false;
-    isLoggedIn = true;
+    isAdmin = false; isLoggedIn = true;
     localStorage.setItem('dahira_role', 'viewer');
     enterApp();
   } else {
@@ -654,14 +610,10 @@ function enterApp() {
   document.getElementById('profiloRuolo').textContent = isAdmin ? '👑' : '👁️';
   document.getElementById('profiloNome').textContent = isAdmin ? 'Amministratore' : 'Visualizzatore';
   document.getElementById('profiloTipo').textContent = isAdmin ? 'Accesso completo — puoi modificare tutto' : 'Solo visualizzazione';
-
-  // Ripristina anno salvato
   const lastYear = localStorage.getItem('dahira_last_year');
   if (lastYear) document.getElementById('yearSelect').value = lastYear;
-
   if (!isAdmin) applyViewerMode();
   init().then(() => {
-    // Ripristina tab salvato
     const lastTab = localStorage.getItem('dahira_last_tab');
     if (lastTab) showTab(lastTab);
   });
@@ -676,26 +628,19 @@ function logout() {
   localStorage.removeItem('dahira_role');
   document.getElementById('profiloMenu').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('loginUser').value = '';
-  document.getElementById('loginPass').value = '';
-  document.getElementById('viewerPass').value = '';
-  document.getElementById('loginErr').textContent = '';
-  document.getElementById('viewerErr').textContent = '';
-  isAdmin = false;
-  isLoggedIn = false;
+  ['loginUser','loginPass','viewerPass'].forEach(id => document.getElementById(id).value = '');
+  ['loginErr','viewerErr'].forEach(id => document.getElementById(id).textContent = '');
+  isAdmin = false; isLoggedIn = false;
 }
 
-// Chiudi menu profilo cliccando fuori
 document.addEventListener('click', function(e) {
   const menu = document.getElementById('profiloMenu');
   const badge = document.getElementById('profiloBadge');
-  if (menu && badge && !menu.contains(e.target) && !badge.contains(e.target)) {
+  if (menu && badge && !menu.contains(e.target) && !badge.contains(e.target))
     menu.style.display = 'none';
-  }
 });
 
 function applyViewerMode() {
-  // Nasconde tutti i bottoni di modifica per il viewer
   const style = document.createElement('style');
   style.textContent = `
     .btn-green, .btn-gold, .btn-red, .btn-purple,
@@ -713,7 +658,7 @@ function checkSession() {
 }
 
 // ══════════════════════════════════════════════
-// SUPABASE — connessione robusta
+// SUPABASE
 // ══════════════════════════════════════════════
 const SU = "https://utrobifkgoddgxbcxqcx.supabase.co";
 const SK = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV0cm9iaWZrZ29kZGd4YmN4cWN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMzQxNjIsImV4cCI6MjA5MzcxMDE2Mn0.8Ln9T926z5O3pzIaIqawwtQi3KL9WOp20AQbK7qPPKA";
@@ -725,17 +670,14 @@ const H = {
 
 async function sbFetch(path, opts = {}) {
   const r = await fetch(SU + "/rest/v1/" + path, { headers: H, ...opts });
-  if (!r.ok) {
-    const err = await r.text();
-    throw new Error(err);
-  }
+  if (!r.ok) { const err = await r.text(); throw new Error(err); }
   const txt = await r.text();
   return txt ? JSON.parse(txt) : [];
 }
 
 async function dbGet(table, query = "") {
-  const separator = query ? "&" : "";
-  return sbFetch(table + "?order=id" + separator + query);
+  const sep = query ? "&" : "";
+  return sbFetch(table + "?order=id" + sep + query);
 }
 
 async function dbInsert(table, data) {
@@ -758,30 +700,18 @@ async function dbDelete(table, filter) {
   return sbFetch(table + "?" + filter, { method: "DELETE" });
 }
 
-// ══════════════════════════════════════════════
-// PAGAMENTI — funzione robusta senza duplicati
-// ══════════════════════════════════════════════
 async function dbSetPagamento(membroId, anno, mese, pagato) {
-  // Cerca se esiste già
   const existing = await dbGet("pagamenti",
-    `membro_id=eq.${membroId}&anno=eq.${anno}&mese=eq.${mese}&select=id`
-  );
-
+    `membro_id=eq.${membroId}&anno=eq.${anno}&mese=eq.${mese}&select=id`);
   if (existing && existing.length > 0) {
     if (pagato) {
-      // Aggiorna a pagato
       await dbUpdate("pagamenti",
-        `membro_id=eq.${membroId}&anno=eq.${anno}&mese=eq.${mese}`,
-        { pagato: true }
-      );
+        `membro_id=eq.${membroId}&anno=eq.${anno}&mese=eq.${mese}`, { pagato: true });
     } else {
-      // Elimina il record
       await dbDelete("pagamenti",
-        `membro_id=eq.${membroId}&anno=eq.${anno}&mese=eq.${mese}`
-      );
+        `membro_id=eq.${membroId}&anno=eq.${anno}&mese=eq.${mese}`);
     }
   } else if (pagato) {
-    // Inserisci nuovo
     await dbInsert("pagamenti", [{ membro_id: membroId, anno, mese, pagato: true }]);
   }
 }
@@ -808,7 +738,7 @@ function setLoader(pct) {
 
 function showSave(state, msg) {
   const el = document.getElementById('saveIndicator');
-  el.className = state; // 'saving' | 'saved' | 'error'
+  el.className = state;
   el.textContent = msg;
   if (state !== 'saving') setTimeout(() => { el.style.opacity = '0'; }, 2500);
 }
@@ -858,7 +788,6 @@ async function init() {
   document.getElementById('qbMese').value = new Date().getMonth() + 1;
   try {
     setLoader(30);
-    // Carica pagamenti in batch da 1000 per evitare il limite Supabase
     let allPayments = [];
     let offset = 0;
     const batchSize = 1000;
@@ -869,7 +798,6 @@ async function init() {
       if (batch.length < batchSize) break;
       offset += batchSize;
     }
-
     const [m, c, ev, inv] = await Promise.all([
       dbGet("membri"),
       dbGet("cassa", "limit=2000"),
@@ -884,7 +812,6 @@ async function init() {
     uscite = aC.filter(x => x.tipo === "uscita");
     eventi = ev || [];
     inventario = inv || [];
-
     if (members.length === 0) {
       toast("⏳ Prima apertura: carico i dati…", 'warn', 5000);
       await seedAll();
@@ -902,50 +829,50 @@ async function init() {
 }
 
 // ══════════════════════════════════════════════
-// SEED DATI INIZIALI
+// SEED
 // ══════════════════════════════════════════════
 const INIT_M = [
-  {nome:"THIARA",cognome:"DIOP",telefono:"331 282 9145",indirizzo:"Viale Astronauti 3/5 Marotta",ddn:""},
-  {nome:"YOMBA",cognome:"DIONE",telefono:"345 353 5431",indirizzo:"",ddn:""},
-  {nome:"FADY",cognome:"NDIAYE",telefono:"371 429 3932",indirizzo:"Via Fanella 69",ddn:"03/10/2006"},
-  {nome:"NDIOBA",cognome:"NIANG",telefono:"",indirizzo:"",ddn:""},
-  {nome:"MAME FATOU",cognome:"NIASSE BICCORA",telefono:"",indirizzo:"",ddn:""},
-  {nome:"ANTA",cognome:"DIOP",telefono:"353 462 4517",indirizzo:"",ddn:""},
-  {nome:"MAME DIARRA",cognome:"NIASSE – BA",telefono:"",indirizzo:"",ddn:""},
-  {nome:"MAMAU",cognome:"SAMB",telefono:"371 681 8551",indirizzo:"",ddn:""},
-  {nome:"COUMBA",cognome:"SAMB",telefono:"371 680 3578",indirizzo:"",ddn:""},
-  {nome:"TABARA",cognome:"GUEYE",telefono:"233 654 5721",indirizzo:"Marotta",ddn:""},
-  {nome:"MAME DIARRA",cognome:"BOUBOU WADE",telefono:"371 788 7806",indirizzo:"",ddn:""},
-  {nome:"ANTA",cognome:"DEME",telefono:"329 557 1718",indirizzo:"",ddn:""},
-  {nome:"MAME FATOU",cognome:"NIASSE GOWPE",telefono:"353 470 3004",indirizzo:"",ddn:""},
-  {nome:"MAME DIARRA",cognome:"NDOYE",telefono:"329 206 3778",indirizzo:"",ddn:""},
-  {nome:"FATOU",cognome:"SECK",telefono:"",indirizzo:"",ddn:""},
-  {nome:"DJEYNABA",cognome:"NDIAYE",telefono:"",indirizzo:"",ddn:""},
-  {nome:"JOJO",cognome:"LO",telefono:"",indirizzo:"",ddn:""},
-  {nome:"AIDA",cognome:"BA",telefono:"371 312 4408",indirizzo:"Via Fausto Coppi N5",ddn:"06/05/2005"},
-  {nome:"ADAMA",cognome:"SECK",telefono:"377 309 3509",indirizzo:"S.N.A.S. 383",ddn:"03/04/2001"},
-  {nome:"AIDA",cognome:"MBAYE",telefono:"389 189 8801",indirizzo:"",ddn:""},
-  {nome:"AIDA",cognome:"NDIAYE",telefono:"333 895 4921",indirizzo:"",ddn:""},
-  {nome:"AICHA",cognome:"DIENG",telefono:"370 353 0167",indirizzo:"",ddn:""},
-  {nome:"ALIMA",cognome:"DER",telefono:"371 445 5933",indirizzo:"",ddn:""},
-  {nome:"AMINA",cognome:"KEBE",telefono:"328 759 1447",indirizzo:"",ddn:""},
-  {nome:"AISSATOU",cognome:"DIENG",telefono:"371 537 5860",indirizzo:"",ddn:""},
-  {nome:"AWA",cognome:"SECK",telefono:"327 689 1411",indirizzo:"RIPE",ddn:""},
-  {nome:"SOKHNA AWA",cognome:"SECK",telefono:"377 309 2956",indirizzo:"S.N.A.S. 383",ddn:"03/04/2001"},
-  {nome:"AMY",cognome:"NDIAYE",telefono:"320 370 9958",indirizzo:"Via 4 Novembre 172/C",ddn:"26/04/2006"},
-  {nome:"ANTA",cognome:"NDIAGNE",telefono:"351 767 5292",indirizzo:"Via Rosili 12",ddn:"29/07/1995"},
-  {nome:"BOUUSO",cognome:"DIENG",telefono:"351 295 5646",indirizzo:"",ddn:""},
-  {nome:"BOUSSO",cognome:"LEYE",telefono:"327 628 9916",indirizzo:"",ddn:""},
-  {nome:"COBEYE PRESIDENTE",cognome:"DIOP",telefono:"351 658 1109",indirizzo:"Strada Solfanuccio 37",ddn:"10/11/2001"},
-  {nome:"COUMBA",cognome:"MBOW",telefono:"366 381 8103",indirizzo:"",ddn:""},
-  {nome:"MAME DIARRA",cognome:"BA – KÉBÉ",telefono:"375 852 3402",indirizzo:"",ddn:""},
-  {nome:"MAME DIARRA",cognome:"SECK",telefono:"338 523 8776",indirizzo:"SNAS 383",ddn:"27/03/2006"},
-  {nome:"NDEYE",cognome:"LO",telefono:"388 433 6796",indirizzo:"",ddn:""},
-  {nome:"NOGAYE",cognome:"DIALLO",telefono:"324 631 4663",indirizzo:"",ddn:""},
-  {nome:"KHADIJA",cognome:"SECK",telefono:"328 735 8814",indirizzo:"",ddn:""},
-  {nome:"KHADY GAYE",cognome:"FALL",telefono:"353 449 3180",indirizzo:"V. Ineivo Ippolito",ddn:"01/01/2002"},
-  {nome:"KHADY",cognome:"LO",telefono:"380 284 4755",indirizzo:"Via Alcide di Gasperi 29",ddn:"03/07/2003"},
-  {nome:"SOKHNA",cognome:"SALL",telefono:"351 195 7192",indirizzo:"Via Martiri delle Foibe",ddn:"11/11/2005"},
+  {nome:"THIARA",cognome:"DIOP",telefono:"331 282 9145",indirizzo:"Viale Astronauti 3/5 Marotta",ddn:"",data_ingresso:""},
+  {nome:"YOMBA",cognome:"DIONE",telefono:"345 353 5431",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"FADY",cognome:"NDIAYE",telefono:"371 429 3932",indirizzo:"Via Fanella 69",ddn:"03/10/2006",data_ingresso:""},
+  {nome:"NDIOBA",cognome:"NIANG",telefono:"",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"MAME FATOU",cognome:"NIASSE BICCORA",telefono:"",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"ANTA",cognome:"DIOP",telefono:"353 462 4517",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"MAME DIARRA",cognome:"NIASSE – BA",telefono:"",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"MAMAU",cognome:"SAMB",telefono:"371 681 8551",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"COUMBA",cognome:"SAMB",telefono:"371 680 3578",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"TABARA",cognome:"GUEYE",telefono:"233 654 5721",indirizzo:"Marotta",ddn:"",data_ingresso:""},
+  {nome:"MAME DIARRA",cognome:"BOUBOU WADE",telefono:"371 788 7806",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"ANTA",cognome:"DEME",telefono:"329 557 1718",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"MAME FATOU",cognome:"NIASSE GOWPE",telefono:"353 470 3004",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"MAME DIARRA",cognome:"NDOYE",telefono:"329 206 3778",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"FATOU",cognome:"SECK",telefono:"",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"DJEYNABA",cognome:"NDIAYE",telefono:"",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"JOJO",cognome:"LO",telefono:"",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"AIDA",cognome:"BA",telefono:"371 312 4408",indirizzo:"Via Fausto Coppi N5",ddn:"06/05/2005",data_ingresso:""},
+  {nome:"ADAMA",cognome:"SECK",telefono:"377 309 3509",indirizzo:"S.N.A.S. 383",ddn:"03/04/2001",data_ingresso:""},
+  {nome:"AIDA",cognome:"MBAYE",telefono:"389 189 8801",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"AIDA",cognome:"NDIAYE",telefono:"333 895 4921",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"AICHA",cognome:"DIENG",telefono:"370 353 0167",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"ALIMA",cognome:"DER",telefono:"371 445 5933",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"AMINA",cognome:"KEBE",telefono:"328 759 1447",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"AISSATOU",cognome:"DIENG",telefono:"371 537 5860",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"AWA",cognome:"SECK",telefono:"327 689 1411",indirizzo:"RIPE",ddn:"",data_ingresso:""},
+  {nome:"SOKHNA AWA",cognome:"SECK",telefono:"377 309 2956",indirizzo:"S.N.A.S. 383",ddn:"03/04/2001",data_ingresso:""},
+  {nome:"AMY",cognome:"NDIAYE",telefono:"320 370 9958",indirizzo:"Via 4 Novembre 172/C",ddn:"26/04/2006",data_ingresso:""},
+  {nome:"ANTA",cognome:"NDIAGNE",telefono:"351 767 5292",indirizzo:"Via Rosili 12",ddn:"29/07/1995",data_ingresso:""},
+  {nome:"BOUUSO",cognome:"DIENG",telefono:"351 295 5646",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"BOUSSO",cognome:"LEYE",telefono:"327 628 9916",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"COBEYE PRESIDENTE",cognome:"DIOP",telefono:"351 658 1109",indirizzo:"Strada Solfanuccio 37",ddn:"10/11/2001",data_ingresso:""},
+  {nome:"COUMBA",cognome:"MBOW",telefono:"366 381 8103",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"MAME DIARRA",cognome:"BA – KÉBÉ",telefono:"375 852 3402",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"MAME DIARRA",cognome:"SECK",telefono:"338 523 8776",indirizzo:"SNAS 383",ddn:"27/03/2006",data_ingresso:""},
+  {nome:"NDEYE",cognome:"LO",telefono:"388 433 6796",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"NOGAYE",cognome:"DIALLO",telefono:"324 631 4663",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"KHADIJA",cognome:"SECK",telefono:"328 735 8814",indirizzo:"",ddn:"",data_ingresso:""},
+  {nome:"KHADY GAYE",cognome:"FALL",telefono:"353 449 3180",indirizzo:"V. Ineivo Ippolito",ddn:"01/01/2002",data_ingresso:""},
+  {nome:"KHADY",cognome:"LO",telefono:"380 284 4755",indirizzo:"Via Alcide di Gasperi 29",ddn:"03/07/2003",data_ingresso:""},
+  {nome:"SOKHNA",cognome:"SALL",telefono:"351 195 7192",indirizzo:"Via Martiri delle Foibe",ddn:"11/11/2005",data_ingresso:""},
 ];
 
 const INIT_P = [
@@ -1095,7 +1022,7 @@ function renderTable() {
     tb.insertAdjacentHTML('beforeend', `<tr>
       <td class="td-n" onclick="openDettaglio(${m.id})" style="cursor:pointer" title="Clicca per vedere i dettagli">
         <span style="color:var(--g2);text-decoration:underline dotted">${m.nome} ${m.cognome}</span>
-        <small>${m.telefono || '—'}</small>
+        <small>${m.telefono || '—'}${m.data_ingresso ? ' · 📅 ' + m.data_ingresso : ''}</small>
       </td>
       ${mc}
       <td class="td-tot">${tot}€</td>
@@ -1109,35 +1036,28 @@ function renderTable() {
 }
 
 // ══════════════════════════════════════════════
-// TOGGLE MONTH — robusto, senza errori duplicati
+// TOGGLE MONTH
 // ══════════════════════════════════════════════
 async function toggleMonth(mid, yr, mese, wasPaid) {
   const newVal = !wasPaid;
   const btnId = `btn-${mid}-${yr}-${mese}`;
   const btn = document.getElementById(btnId);
-
-  // Aggiorna UI subito (ottimistico)
   const idx = payments.findIndex(p => p.membro_id === mid && p.anno === yr && p.mese === mese);
   if (idx >= 0) payments[idx].pagato = newVal;
   else payments.push({ membro_id: mid, anno: yr, mese, pagato: newVal, id: Date.now() });
   renderTable();
-
-  // Mostra stato salvataggio
   if (btn) btn.classList.add('saving');
   showSave('saving', '💾 Salvataggio…');
-
   try {
     await dbSetPagamento(mid, yr, mese, newVal);
     showSave('saved', '✅ Salvato');
     toast(newVal ? "✅ Pagamento registrato" : "↩️ Pagamento rimosso", 'ok');
   } catch (e) {
-    // Rollback in caso di errore
     if (idx >= 0) payments[idx].pagato = wasPaid;
     else payments.pop();
     renderTable();
     showSave('error', '❌ Errore salvataggio');
     toast("❌ Errore: " + e.message, 'err', 5000);
-    console.error("Errore toggleMonth:", e);
   }
 }
 
@@ -1147,80 +1067,80 @@ async function toggleMonth(mid, yr, mese, wasPaid) {
 function openDettaglio(id) {
   const m = members.find(x => x.id === id);
   if (!m) return;
-
   document.getElementById('detNome').textContent = '👤 ' + m.nome + ' ' + m.cognome;
-
-  // Info personali
   document.getElementById('detInfo').innerHTML = `
-    <div style="background:var(--gs);border-radius:8px;padding:10px 12px">
-      <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:3px">Telefono</div>
+    <div style="background:var(--gs);border-radius:8px;padding:10px">
+      <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Telefono</div>
       <div style="font-weight:600">${m.telefono || '—'}</div>
     </div>
-    <div style="background:var(--gs);border-radius:8px;padding:10px 12px">
-      <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:3px">Data di Nascita</div>
+    <div style="background:var(--gs);border-radius:8px;padding:10px">
+      <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Data di Nascita</div>
       <div style="font-weight:600">${m.ddn || '—'}</div>
     </div>
-    <div style="background:var(--gs);border-radius:8px;padding:10px 12px;grid-column:1/-1">
-      <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:3px">Indirizzo</div>
+    <div style="background:var(--gs);border-radius:8px;padding:10px;border:1.5px solid var(--g2)">
+      <div style="font-size:.65rem;color:var(--g2);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-weight:700">📅 Data Ingresso Dahira</div>
+      <div style="font-weight:700;color:var(--g2)">${m.data_ingresso || '—'}</div>
+    </div>
+    <div style="background:var(--gs);border-radius:8px;padding:10px">
+      <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Indirizzo</div>
       <div style="font-weight:600">${m.indirizzo || '—'}</div>
     </div>`;
 
-  // Storico pagamenti per anno
   const anni = [2022,2023,2024,2025,2026,2027];
-  let totaleGlobale = 0;
+  let totaleComplessivo = 0;
+  let storicoHTML = '<table style="width:100%;border-collapse:collapse;font-size:.8rem">';
+  storicoHTML += `<thead><tr style="background:var(--g1);color:#fff">
+    <th style="padding:8px 10px;text-align:left">Anno</th>
+    ${MS.map(s => `<th style="padding:8px 4px;width:36px">${s}</th>`).join('')}
+    <th style="padding:8px 10px">Tot</th>
+    <th style="padding:8px 6px">Stato</th>
+  </tr></thead><tbody>`;
 
-  let rows = anni.map(yr => {
+  anni.forEach((yr, ri) => {
     const pays = getPays(m.id, yr);
     const tot = pays.filter(Boolean).length * 5;
-    totaleGlobale += tot;
-    if (tot === 0) return ''; // nascondi anni senza pagamenti
+    if (tot === 0) return;
+    totaleComplessivo += tot;
+    const bg = ri % 2 === 0 ? 'var(--white)' : 'var(--gs)';
     const stato = tot >= 60
       ? `<span class="sbadge s-ok">✅ Completo</span>`
-      : `<span class="sbadge s-par">⏳ ${tot}€/60€</span>`;
-    const celle = pays.map((p, i) => `
-      <td style="text-align:center;padding:5px 3px">
-        <span style="display:inline-flex;width:24px;height:22px;border-radius:4px;align-items:center;justify-content:center;font-size:.75rem;
-          background:${p ? 'var(--gl)' : '#F4F4F2'};color:${p ? 'var(--g2)' : 'var(--t3)'};
-          border:1.5px solid ${p ? '#6dba8e' : 'var(--border)'};font-weight:700">
-          ${p ? '✓' : ''}
-        </span>
+      : tot > 0 ? `<span class="sbadge s-par">⏳ ${tot}€</span>`
+      : `<span class="sbadge s-no">—</span>`;
+    const celle = pays.map(p =>
+      `<td style="text-align:center;padding:6px 2px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:22px;border-radius:4px;
+          background:${p ? 'var(--gl)' : '#F4F4F2'};border:1.5px solid ${p ? '#6dba8e' : 'var(--border)'};
+          font-size:${p ? '.8rem' : '0'};color:var(--g2);font-weight:700">${p ? '✓' : ''}</span>
       </td>`).join('');
-    return `<tr style="border-bottom:1px solid var(--border)">
-      <td style="padding:6px 10px;font-weight:700;color:var(--g1);white-space:nowrap">${yr}</td>
+    storicoHTML += `<tr style="background:${bg};border-bottom:1px solid var(--border)">
+      <td style="padding:7px 10px;font-weight:700;color:var(--g1)">${yr}</td>
       ${celle}
-      <td style="padding:6px 8px;font-weight:700;color:var(--g2);white-space:nowrap">${tot}€</td>
-      <td style="padding:6px 8px">${stato}</td>
+      <td style="padding:7px 10px;font-weight:700;color:var(--g2)">${tot}€</td>
+      <td style="padding:7px 6px">${stato}</td>
     </tr>`;
-  }).filter(r => r !== '').join('');
+  });
 
-  if (!rows) rows = `<tr><td colspan="16" style="text-align:center;padding:20px;color:var(--t3)">Nessun pagamento registrato</td></tr>`;
+  storicoHTML += '</tbody></table>';
+  if (totaleComplessivo === 0)
+    storicoHTML = `<div style="text-align:center;padding:20px;color:var(--t3)">Nessun pagamento registrato</div>`;
 
-  document.getElementById('detStorico').innerHTML = `
-    <table style="width:100%;border-collapse:collapse;font-size:.75rem">
-      <thead>
-        <tr style="background:var(--g1);color:#fff">
-          <th style="padding:8px 10px;text-align:left">Anno</th>
-          ${MS.map(m => `<th style="padding:8px 3px;text-align:center;width:32px">${m}</th>`).join('')}
-          <th style="padding:8px 8px">Tot</th>
-          <th style="padding:8px 8px">Stato</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>`;
-
-  document.getElementById('detTotale').textContent = fmt(totaleGlobale);
+  document.getElementById('detStorico').innerHTML = storicoHTML;
+  document.getElementById('detTotale').textContent = fmt(totaleComplessivo);
   document.getElementById('detEditBtn').onclick = () => { closeModal('modalDettaglio'); editMember(id); };
   document.getElementById('modalDettaglio').classList.add('open');
 }
 
-
+// ══════════════════════════════════════════════
+// MEMBRI CRUD
+// ══════════════════════════════════════════════
 function openAddMember() {
   editingMemberId = null;
   document.getElementById('modalMembroTitle').textContent = '➕ Nuovo Membro';
   document.getElementById('membroSaveBtn').textContent = 'Salva';
-  ['fNome','fCognome','fTel','fDdn','fAddr'].forEach(id => document.getElementById(id).value = '');
+  ['fNome','fCognome','fTel','fDdn','fAddr','fIngresso'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('modalMembro').classList.add('open');
 }
+
 function editMember(id) {
   const m = members.find(x => x.id === id);
   if (!m) return;
@@ -1232,8 +1152,10 @@ function editMember(id) {
   document.getElementById('fTel').value = m.telefono || '';
   document.getElementById('fDdn').value = m.ddn || '';
   document.getElementById('fAddr').value = m.indirizzo || '';
+  document.getElementById('fIngresso').value = m.data_ingresso || '';
   document.getElementById('modalMembro').classList.add('open');
 }
+
 async function saveMember() {
   const nome = document.getElementById('fNome').value.trim().toUpperCase();
   const cognome = document.getElementById('fCognome').value.trim().toUpperCase();
@@ -1242,7 +1164,8 @@ async function saveMember() {
     nome, cognome,
     telefono: document.getElementById('fTel').value.trim(),
     indirizzo: document.getElementById('fAddr').value.trim(),
-    ddn: document.getElementById('fDdn').value.trim()
+    ddn: document.getElementById('fDdn').value.trim(),
+    data_ingresso: document.getElementById('fIngresso').value.trim()
   };
   try {
     if (editingMemberId) {
@@ -1259,6 +1182,7 @@ async function saveMember() {
     renderTable();
   } catch (e) { toast("❌ Errore: " + e.message, 'err', 5000); }
 }
+
 async function delMember(id) {
   const m = members.find(x => x.id === id);
   if (!confirm(`Eliminare ${m?.nome} ${m?.cognome} e tutti i suoi pagamenti?`)) return;
@@ -1312,7 +1236,6 @@ function renderCassa() {
   ['saldoC','saldoFin'].forEach(id => document.getElementById(id).textContent = fmt(saldo));
   document.getElementById('hSaldo').textContent = fmt(saldo);
 
-  // Riepilogo per anno
   const anni = {};
   entrate.forEach(x => { const yr = getAnnoFromData(x.data_mov); if (yr) { if (!anni[yr]) anni[yr] = {e:0,u:0}; anni[yr].e += Number(x.importo); } });
   uscite.forEach(x => { const yr = getAnnoFromData(x.data_mov); if (yr) { if (!anni[yr]) anni[yr] = {e:0,u:0}; anni[yr].u += Number(x.importo); } });
@@ -1353,6 +1276,7 @@ async function addEntrata() {
     toast("✅ Entrata salvata!", 'ok');
   } catch (e) { toast("❌ " + e.message, 'err', 4000); }
 }
+
 async function addUscita() {
   const data = document.getElementById('uData').value.trim();
   const desc = document.getElementById('uDesc').value.trim();
@@ -1366,6 +1290,7 @@ async function addUscita() {
     toast("✅ Uscita salvata!", 'ok');
   } catch (e) { toast("❌ " + e.message, 'err', 4000); }
 }
+
 async function delCassa(id, tipo, idx) {
   if (!confirm('Eliminare questa voce?')) return;
   try {
@@ -1381,13 +1306,21 @@ async function delCassa(id, tipo, idx) {
 // EVENTI
 // ══════════════════════════════════════════════
 function openAddEvento() { document.getElementById('modalEvento').classList.add('open'); }
+
 async function saveEvento() {
   const nome = document.getElementById('evNome').value.trim();
   const data = document.getElementById('evData').value.trim();
   const quota = parseFloat(document.getElementById('evQuota').value) || 0;
   const desc = document.getElementById('evDesc').value.trim();
   if (!nome) { alert('Nome evento obbligatorio'); return; }
-  const partecipanti = JSON.stringify(members.map(m => ({ id: m.id, nome: m.nome, cognome: m.cognome, dato: 0 })));
+  // Snapshot dei membri ATTUALI con la loro data ingresso
+  const partecipanti = JSON.stringify(members.map(m => ({
+    id: m.id,
+    nome: m.nome,
+    cognome: m.cognome,
+    data_ingresso: m.data_ingresso || '',
+    dato: 0
+  })));
   try {
     const res = await dbInsert("eventi", [{ nome, data_ev: data, quota_richiesta: quota, descrizione: desc, partecipanti }]);
     eventi.push(res[0]);
@@ -1397,8 +1330,9 @@ async function saveEvento() {
   ['evNome','evData','evQuota','evDesc'].forEach(id => document.getElementById(id).value = '');
   closeModal('modalEvento');
   renderEventi();
-  toast("✅ Evento creato!", 'ok');
+  toast("✅ Evento creato con " + members.length + " membri!", 'ok');
 }
+
 function renderEventi() {
   const grid = document.getElementById('eventiGrid');
   const empty = document.getElementById('eventiEmpty');
@@ -1418,10 +1352,13 @@ function renderEventi() {
       <div class="ev-body">
         <div class="ep-info"><span>Raccolto: <strong>${fmt(totD)}</strong></span><span>${perc}%</span></div>
         <div class="ep-bar"><div class="ep-fill" style="width:${perc}%"></div></div>
-        <div class="ep-info"><span>${pp.filter(p => p.dato > 0).length} hanno pagato</span><span>Atteso: ${fmt(totA)}</span></div>
+        <div class="ep-info"><span>${pp.filter(p => p.dato > 0).length} hanno pagato · ${pp.length} membri</span><span>Atteso: ${fmt(totA)}</span></div>
         <div class="ev-membri">
           ${pp.map(p => `<div class="em-row">
-            <div class="em-name">${p.nome} ${p.cognome}</div>
+            <div class="em-name">
+              ${p.nome} ${p.cognome}
+              ${p.data_ingresso ? `<span class="em-date">📅 ${p.data_ingresso}</span>` : ''}
+            </div>
             <input class="em-input" type="number" value="${p.dato || ''}" min="0" placeholder="€"
               onchange="updateEvPart(${ev.id},'${p.id}',this.value)">
           </div>`).join('')}
@@ -1435,6 +1372,7 @@ function renderEventi() {
     </div>`;
   }).join('');
 }
+
 function updateEvPart(evId, membId, val) {
   const ev = eventi.find(e => e.id === evId);
   if (!ev) return;
@@ -1443,6 +1381,7 @@ function updateEvPart(evId, membId, val) {
   if (idx >= 0) p[idx].dato = parseFloat(val) || 0;
   ev.partecipanti = p;
 }
+
 async function salvaEvento(evId) {
   const ev = eventi.find(e => e.id === evId);
   if (!ev) return;
@@ -1451,6 +1390,7 @@ async function salvaEvento(evId) {
   renderEventi();
   toast("✅ Evento salvato!", 'ok');
 }
+
 async function spostaInCassa(evId) {
   const ev = eventi.find(e => e.id === evId);
   if (!ev) return;
@@ -1465,6 +1405,7 @@ async function spostaInCassa(evId) {
     toast(`✅ ${fmt(tot)} aggiunti alla cassa!`, 'ok');
   } catch (e) { toast("❌ Errore", 'err', 4000); }
 }
+
 async function delEvento(id) {
   if (!confirm('Eliminare questo evento?')) return;
   try { await dbDelete("eventi", `id=eq.${id}`); } catch(e) {}
@@ -1502,6 +1443,7 @@ function renderInventario() {
     </tr>`;
   }).join('');
 }
+
 async function addInventario() {
   const data = document.getElementById('invData').value.trim();
   const amt = parseFloat(document.getElementById('invAmt').value);
@@ -1517,6 +1459,7 @@ async function addInventario() {
   renderInventario();
   toast("✅ Conteggio aggiunto!", 'ok');
 }
+
 async function delInv(id, idx) {
   if (!confirm('Eliminare questo conteggio?')) return;
   try { await dbDelete("inventario_cassa", `id=eq.${id}`); } catch(e) {}
@@ -1526,89 +1469,16 @@ async function delInv(id, idx) {
 }
 
 // ══════════════════════════════════════════════
-// DETTAGLIO MEMBRO
-// ══════════════════════════════════════════════
-function openDettaglio(id) {
-  const m = members.find(x => x.id === id);
-  if (!m) return;
-
-  document.getElementById('detNome').textContent = '👤 ' + m.nome + ' ' + m.cognome;
-
-  // Info personali
-  document.getElementById('detInfo').innerHTML = `
-    <div style="background:var(--gs);border-radius:8px;padding:10px">
-      <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Telefono</div>
-      <div style="font-weight:600">${m.telefono || '—'}</div>
-    </div>
-    <div style="background:var(--gs);border-radius:8px;padding:10px">
-      <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Data di Nascita</div>
-      <div style="font-weight:600">${m.ddn || '—'}</div>
-    </div>
-    <div style="background:var(--gs);border-radius:8px;padding:10px;grid-column:1/-1">
-      <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Indirizzo</div>
-      <div style="font-weight:600">${m.indirizzo || '—'}</div>
-    </div>`;
-
-  // Storico per anno
-  const anni = [2022, 2023, 2024, 2025, 2026, 2027];
-  let totaleComplessivo = 0;
-  let storicoHTML = '<table style="width:100%;border-collapse:collapse;font-size:.8rem">';
-  storicoHTML += `<thead><tr style="background:var(--g1);color:#fff">
-    <th style="padding:8px 10px;text-align:left;border-radius:8px 0 0 0">Anno</th>
-    ${MS.map(m => `<th style="padding:8px 4px;width:36px">${m}</th>`).join('')}
-    <th style="padding:8px 10px;border-radius:0 8px 0 0">Totale</th>
-    <th style="padding:8px 6px">Stato</th>
-  </tr></thead><tbody>`;
-
-  anni.forEach((yr, ri) => {
-    const pays = getPays(m.id, yr);
-    const tot = pays.filter(Boolean).length * 5;
-    if (tot === 0 && !pays.some(Boolean)) {
-      // Nessun pagamento per quest'anno — salto
-      return;
-    }
-    totaleComplessivo += tot;
-    const bg = ri % 2 === 0 ? 'var(--white)' : 'var(--gs)';
-    const stato = tot >= 60
-      ? `<span class="sbadge s-ok">✅ Completo</span>`
-      : tot > 0 ? `<span class="sbadge s-par">⏳ ${tot}€</span>`
-      : `<span class="sbadge s-no">—</span>`;
-    const celle = pays.map(p =>
-      `<td style="text-align:center;padding:6px 2px">
-        <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:22px;border-radius:4px;
-          background:${p ? 'var(--gl)' : '#F4F4F2'};border:1.5px solid ${p ? '#6dba8e' : 'var(--border)'};
-          font-size:${p ? '.8rem' : '0'};color:var(--g2);font-weight:700">${p ? '✓' : ''}</span>
-      </td>`).join('');
-    storicoHTML += `<tr style="background:${bg};border-bottom:1px solid var(--border)">
-      <td style="padding:7px 10px;font-weight:700;color:var(--g1)">${yr}</td>
-      ${celle}
-      <td style="padding:7px 10px;font-weight:700;color:var(--g2)">${tot}€</td>
-      <td style="padding:7px 6px">${stato}</td>
-    </tr>`;
-  });
-
-  storicoHTML += '</tbody></table>';
-
-  // Se nessun anno ha pagamenti
-  if (totaleComplessivo === 0) {
-    storicoHTML = `<div style="text-align:center;padding:20px;color:var(--t3)">Nessun pagamento registrato</div>`;
-  }
-
-  document.getElementById('detStorico').innerHTML = storicoHTML;
-  document.getElementById('detTotale').textContent = fmt(totaleComplessivo);
-  document.getElementById('modalDettaglio').classList.add('open');
-}
-
-// ══════════════════════════════════════════════
 // EXPORT CSV
 // ══════════════════════════════════════════════
 function exportCSV() {
   const year = parseInt(document.getElementById('yearSelect').value);
-  const header = ['Nome','Cognome','Telefono',...MS,'Totale €','Stato'].join(';');
+  const header = ['Nome','Cognome','Telefono','Data Ingresso',...MS,'Totale €','Stato'].join(';');
   const rows = members.map(m => {
     const pays = getPays(m.id, year);
     const tot = pays.filter(Boolean).length * 5;
-    return [m.nome, m.cognome, m.telefono, ...pays.map(p => p ? 5 : 0), tot,
+    return [m.nome, m.cognome, m.telefono, m.data_ingresso || '',
+      ...pays.map(p => p ? 5 : 0), tot,
       tot >= 60 ? 'Completo' : tot > 0 ? 'Parziale' : 'Non pagato'].join(';');
   });
   const blob = new Blob(['\uFEFF' + [header, ...rows].join('\n')], { type: 'text/csv;charset=utf-8' });
