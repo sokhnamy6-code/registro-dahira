@@ -601,6 +601,7 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
       <div><label class="flabel">Nome *</label><input class="finput" type="text" id="fNome" placeholder="es. Aida"></div>
       <div><label class="flabel">Cognome *</label><input class="finput" type="text" id="fCognome" placeholder="es. Ba"></div>
       <div><label class="flabel">Telefono</label><input class="finput" type="tel" id="fTel" placeholder="371 000 0000"></div>
+      <div><label class="flabel">Anno di ingresso</label><input class="finput" type="number" id="fAnno" placeholder="es. 2024" min="2020" max="2035"></div>
       <div><label class="flabel">Data Nascita</label><input class="finput" type="text" id="fDdn" placeholder="gg/mm/aaaa"></div>
       <div class="full"><label class="flabel">Indirizzo</label><input class="finput" type="text" id="fAddr" placeholder="Via..."></div>
     </div>
@@ -853,9 +854,9 @@ function showTab(t) {
 // CLASSIFICA
 // ══════════════════════════════════════════════
 function clData(yr){
-  return members.map(m=>{
+  return members.filter(m=>!m.data_ingresso||parseInt(m.data_ingresso)<=yr).map(m=>{
     const years=[...new Set(payments.filter(p=>p.membro_id===m.id&&p.pagato).map(p=>p.anno))].sort();
-    return {m, entry:years[0]||'—', paid:countPaid(m.id,yr)};
+    return {m, entry:m.data_ingresso||years[0]||'—', paid:countPaid(m.id,yr)};
   });
 }
 function clGroups(yr){
@@ -1110,18 +1111,19 @@ function countPaid(mid, yr) { return getPays(mid, yr).filter(Boolean).length * 5
 function renderTable() {
   const year = parseInt(document.getElementById('yearSelect').value);
   const q = document.getElementById('searchInput').value.toLowerCase();
-  let fl = members.filter(m => (m.nome + ' ' + m.cognome).toLowerCase().includes(q));
+  const ms = members.filter(m => !m.data_ingresso || parseInt(m.data_ingresso) <= year);
+  let fl = ms.filter(m => (m.nome + ' ' + m.cognome).toLowerCase().includes(q));
   if (activeFilter === 'completo') fl = fl.filter(m => countPaid(m.id, year) >= 60);
   else if (activeFilter === 'parziale') fl = fl.filter(m => { const t = countPaid(m.id, year); return t > 0 && t < 60; });
   else if (activeFilter === 'zero') fl = fl.filter(m => countPaid(m.id, year) === 0);
 
-  const ok = members.filter(m => countPaid(m.id, year) >= 60).length;
-  const par = members.filter(m => { const t = countPaid(m.id, year); return t > 0 && t < 60; }).length;
-  const no = members.filter(m => countPaid(m.id, year) === 0).length;
-  const tot = members.reduce((a, m) => a + countPaid(m.id, year), 0);
+  const ok = ms.filter(m => countPaid(m.id, year) >= 60).length;
+  const par = ms.filter(m => { const t = countPaid(m.id, year); return t > 0 && t < 60; }).length;
+  const no = ms.filter(m => countPaid(m.id, year) === 0).length;
+  const tot = ms.reduce((a, m) => a + countPaid(m.id, year), 0);
 
   document.getElementById('statsRow').innerHTML = `
-    <div class="sc"><div class="sl">Membri</div><div class="sv">${members.length}</div></div>
+    <div class="sc"><div class="sl">Membri ${year}</div><div class="sv">${ms.length}</div></div>
     <div class="sc"><div class="sl">✅ Completo ${year}</div><div class="sv">${ok}</div></div>
     <div class="sc gold"><div class="sl">⏳ Parziale</div><div class="sv">${par}</div></div>
     <div class="sc red"><div class="sl">❌ Non pagato</div><div class="sv">${no}</div></div>
@@ -1273,7 +1275,7 @@ function openAddMember() {
   editingMemberId = null;
   document.getElementById('modalMembroTitle').textContent = '➕ Nuovo Membro';
   document.getElementById('membroSaveBtn').textContent = 'Salva';
-  ['fNome','fCognome','fTel','fDdn','fAddr'].forEach(id => document.getElementById(id).value = '');
+  ['fNome','fCognome','fTel','fDdn','fAddr','fAnno'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('modalMembro').classList.add('open');
 }
 function editMember(id) {
@@ -1286,6 +1288,7 @@ function editMember(id) {
   document.getElementById('fCognome').value = m.cognome;
   document.getElementById('fTel').value = m.telefono || '';
   document.getElementById('fDdn').value = m.ddn || '';
+  document.getElementById('fAnno').value = m.data_ingresso || '';
   document.getElementById('fAddr').value = m.indirizzo || '';
   document.getElementById('modalMembro').classList.add('open');
 }
@@ -1297,7 +1300,8 @@ async function saveMember() {
     nome, cognome,
     telefono: document.getElementById('fTel').value.trim(),
     indirizzo: document.getElementById('fAddr').value.trim(),
-    ddn: document.getElementById('fDdn').value.trim()
+    ddn: document.getElementById('fDdn').value.trim(),
+    data_ingresso: document.getElementById('fAnno').value.trim() || null
   };
   try {
     if (editingMemberId) {
