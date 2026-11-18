@@ -63,7 +63,7 @@ async function sb(q){const out=[];for(let o=0;;o+=1000){const r=await fetch(SB+q
 const tc=x=>(x||'').toLowerCase().replace(/(^|\s)\S/g,c=>c.toUpperCase());
 async function load(){
   try{
-    const [mm,pp]=await Promise.all([sb('membri?select=id,nome,cognome,data_ingresso&order=cognome,nome'),sb('pagamenti?select=membro_id,anno&pagato=eq.true&order=id')]);
+    const [mm,pp]=await Promise.all([sb('membri?select=id,nome,cognome,data_ingresso&attivo=eq.true&order=cognome,nome'),sb('pagamenti?select=membro_id,anno&pagato=eq.true&order=id')]);
     const by={};pp.forEach(p=>{(by[p.membro_id]??={});by[p.membro_id][p.anno]=(by[p.membro_id][p.anno]||0)+5});
     M=mm.map(m=>{const y=by[m.id]||{};const first=Object.keys(y).map(Number).sort()[0];return[tc(m.nome),tc(m.cognome),+m.data_ingresso||first||null,y]});
     document.getElementById('upd').textContent='Dati aggiornati al '+new Date().toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'})+'.';
