@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Classifica Quote Dahira</title>
+<link rel="icon" href="mamediarra.jpg"><link rel="apple-touch-icon" href="mamediarra.jpg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600&display=swap">
+<style>
+/* Layout: intestazione verde, selettore anno, contatori, tre gruppi (completo / incompleto / non ancora) */
+:root{--bg:#F7F6F1;--card:#FFFFFF;--fg:#14281B;--muted:#5E6E63;--line:#E1E6DD;--green:#1A6B3C;--green-d:#0D4A26;--gold:#A9780A;--track:#E4EBE3;--none:#8A958D;--chip:#EAF3EC;
+--serif:'Cormorant Garamond',Georgia,serif;--sans:'Outfit',system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1711;--card:#16231A;--fg:#EAF2EC;--muted:#98A89D;--line:#27382C;--green:#4FB878;--green-d:#0B2A18;--gold:#E0B246;--track:#26362B;--none:#7C8A81;--chip:#1D3024;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1711;--card:#16231A;--fg:#EAF2EC;--muted:#98A89D;--line:#27382C;--green:#4FB878;--green-d:#0B2A18;--gold:#E0B246;--track:#26362B;--none:#7C8A81;--chip:#1D3024;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);padding-block:0 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:760px;margin:0 auto}
+header{padding-block:28px 8px}
+.kicker{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{font-family:var(--serif);font-size:2.2rem;line-height:1.05;margin:6px 0 6px;color:var(--green);text-wrap:balance}
+.sub{color:var(--muted);font-size:.9rem;margin:0}
+.years{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 16px}
+.years button{font:inherit;font-weight:500;padding:8px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.years button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.years button:focus-visible,.copy:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0}
+.stat b{display:block;font-family:var(--serif);font-size:1.7rem;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:.75rem;color:var(--muted)}
+.stat.ok b{color:var(--green)}.stat.mid b{color:var(--gold)}.stat.no b{color:var(--none)}
+.copy{font:inherit;font-weight:500;margin:8px 0 4px;padding:10px 16px;border-radius:10px;border:0;background:var(--green-d);color:#fff;cursor:pointer}
+.msg{font-size:.82rem;color:var(--muted);margin-left:8px}
+h2{font-family:var(--serif);font-size:1.45rem;margin:26px 0 10px;display:flex;align-items:baseline;gap:8px}
+h2 small{font-family:var(--sans);font-size:.8rem;color:var(--muted);font-weight:500}
+.row{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:8px}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.name{font-weight:600;min-width:0;overflow-wrap:anywhere}
+.since{font-size:.78rem;color:var(--muted);white-space:nowrap}
+.bar{height:7px;border-radius:5px;background:var(--track);margin:8px 0 6px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:5px;background:var(--green)}
+.row.mid .bar i{background:var(--gold)}
+.amt{display:flex;justify-content:space-between;font-size:.84rem;font-variant-numeric:tabular-nums}
+.amt b{font-weight:600}.row.mid .amt b{color:var(--gold)}.row.ok .amt b{color:var(--green)}
+.row.no .amt{color:var(--none)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chips span{font-size:.76rem;background:var(--chip);border-radius:6px;padding:3px 8px;font-variant-numeric:tabular-nums}
+.chips span.z{opacity:.5}
+footer{margin-top:28px;font-size:.8rem;color:var(--muted)}
+@media (max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}h1{font-size:1.8rem}}
+</style></head>
+<body>
+<div class="wrap">
+<header>
+<div class="kicker">Dahira Sokhna Diarra</div>
+<h1>Classifica quote</h1>
+<p class="sub">Quota annuale 60 € (5 € al mese). <span id="upd">Caricamento dati…</span></p>
+</header>
+<div class="years" id="years" role="group" aria-label="Anno"></div>
+<div class="stats" id="stats"></div>
+<button class="copy" id="copy">Copia testo per WhatsApp</button><span class="msg" id="msg"></span>
+<div id="list"></div>
+<footer>L'anno accanto al nome è l'anno di ingresso: il primo anno con una quota versata. Il segno “—” indica chi non ha ancora versato nulla.</footer>
+</div>
+<script>
+let M=[];
+const SB='https://utrobifkgoddgxbcxqcx.supabase.co/rest/v1/',KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV0cm9iaWZrZ29kZGd4YmN4cWN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMzQxNjIsImV4cCI6MjA5MzcxMDE2Mn0.8Ln9T926z5O3pzIaIqawwtQi3KL9WOp20AQbK7qPPKA';
+async function sb(q){const out=[];for(let o=0;;o+=1000){const r=await fetch(SB+q+(q.includes('?')?'&':'?')+'limit=1000&offset='+o,{headers:{apikey:KEY,Authorization:'Bearer '+KEY}});if(!r.ok)throw new Error(r.status);const j=await r.json();out.push(...j);if(j.length<1000)break}return out}
+const tc=x=>(x||'').toLowerCase().replace(/(^|\s)\S/g,c=>c.toUpperCase());
+async function load(){
+  try{
+    const [mm,pp]=await Promise.all([sb('membri?select=id,nome,cognome,data_ingresso&order=cognome,nome'),sb('pagamenti?select=membro_id,anno&pagato=eq.true&order=id')]);
+    const by={};pp.forEach(p=>{(by[p.membro_id]??={});by[p.membro_id][p.anno]=(by[p.membro_id][p.anno]||0)+5});
+    M=mm.map(m=>{const y=by[m.id]||{};const first=Object.keys(y).map(Number).sort()[0];return[tc(m.nome),tc(m.cognome),+m.data_ingresso||first||null,y]});
+    document.getElementById('upd').textContent='Dati aggiornati al '+new Date().toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'})+'.';
+    render();
+  }catch(e){document.getElementById('upd').textContent='Impossibile caricare i dati. Riprova più tardi.'}
+}
+const YEARS=[2026,2025,2024,2023];
+let sel=2026;
+const eur=n=>n.toLocaleString('it-IT')+' €';
+const amt=(m,y)=>m[3][y]||0;
+const cmp=(a,b)=>(a[1]+a[0]).localeCompare(b[1]+b[0],'it');
+function groups(y){
+  const d=M.filter(m=>(m[2]||9999)<=y).sort((a,b)=>amt(b,y)-amt(a,y)||cmp(a,b));
+  return{full:d.filter(m=>amt(m,y)>=60),part:d.filter(m=>amt(m,y)>0&&amt(m,y)<60),none:d.filter(m=>amt(m,y)===0)};
+}
+const tot=m=>Object.values(m[3]).reduce((a,b)=>a+b,0);
+const since=m=>m[2]?'dal '+m[2]:'—';
+function row(m,y,i){
+  const a=amt(m,y),c=a>=60?'ok':a>0?'mid':'no';
+  return `<div class="row ${c}"><div class="top"><span class="name">${i+1}. ${m[0]} ${m[1]}</span><span class="since">${since(m)}</span></div>
+  <div class="bar"><i style="width:${Math.min(100,a/60*100)}%"></i></div>
+  <div class="amt"><b>${eur(a)}</b><span>su 60 €</span></div></div>`;
+}
+function rowAll(m,i){
+  return `<div class="row ${tot(m)?'ok':'no'}"><div class="top"><span class="name">${i+1}. ${m[0]} ${m[1]}</span><span class="since">${since(m)}</span></div>
+  <div class="amt"><b>Totale ${eur(tot(m))}</b></div>
+  <div class="chips">${YEARS.slice().reverse().filter(y=>y>=(m[2]||9999)).map(y=>`<span class="${amt(m,y)?'':'z'}">${y}: ${eur(amt(m,y))}</span>`).join('')}</div></div>`;
+}
+function render(){
+  document.getElementById('years').innerHTML=[...YEARS,'Totale'].map(y=>`<button aria-pressed="${sel===y}" data-y="${y}">${y}</button>`).join('');
+  const st=document.getElementById('stats'),L=document.getElementById('list');
+  if(sel==='Totale'){
+    const s=M.slice().sort((a,b)=>tot(b)-tot(a)||cmp(a,b));
+    st.innerHTML=`<div class="stat ok"><b>${M.length}</b><span>Membri</span></div>`;
+    L.innerHTML=`<h2>Tutti gli anni <small>ordinati per totale versato</small></h2>`+s.map(rowAll).join('');
+  }else{
+    const g=groups(sel);
+    st.innerHTML=`<div class="stat ok"><b>${g.full.length}</b><span>Completi</span></div><div class="stat mid"><b>${g.part.length}</b><span>Incompleti</span></div><div class="stat no"><b>${g.none.length}</b><span>Non ancora</span></div><div class="stat"><b>${g.full.length+g.part.length+g.none.length}</b><span>Membri</span></div>`;
+    const sec=(t,s,a)=>a.length?`<h2>${t} <small>${a.length} persone</small></h2>`+a.map((m,i)=>row(m,sel,i)).join(''):'';
+    L.innerHTML=sec('Hanno completato',0,g.full)+sec('Quota incompleta',0,g.part)+sec('Non hanno ancora versato',0,g.none);
+  }
+}
+document.getElementById('years').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sel=b.dataset.y==='Totale'?'Totale':+b.dataset.y;render()});
+function text(){
+  const y=sel==='Totale'?2026:sel,g=groups(y),l=m=>`• ${m[0]} ${m[1]} (${since(m)}): ${eur(amt(m,y))}`;
+  return `*Dahira Sokhna Diarra, quote ${y}*\n\n✅ *Completo (${g.full.length})*\n${g.full.map(l).join('\n')||'-'}\n\n🟡 *Incompleto (${g.part.length})*\n${g.part.map(l).join('\n')||'-'}\n\n⚪ *Non ancora (${g.none.length})*\n${g.none.map(m=>`• ${m[0]} ${m[1]}`).join('\n')||'-'}`;
+}
+document.getElementById('copy').addEventListener('click',()=>{
+  const t=text(),msg=document.getElementById('msg'),done=()=>{msg.textContent='Copiato. Incolla nel gruppo.'};
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){msg.textContent='Copia non riuscita'}ta.remove()};
+  if(navigator.clipboard)navigator.clipboard.writeText(t).then(done).catch(fb);else fb();
+});
+load();
+</script>
+
+</html>
