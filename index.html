@@ -602,6 +602,7 @@ tbody td.td-tot{font-weight:700;color:var(--g2)}
       <div><label class="flabel">Cognome *</label><input class="finput" type="text" id="fCognome" placeholder="es. Ba"></div>
       <div><label class="flabel">Telefono</label><input class="finput" type="tel" id="fTel" placeholder="371 000 0000"></div>
       <div><label class="flabel">Anno di ingresso</label><input class="finput" type="number" id="fAnno" placeholder="es. 2024" min="2020" max="2035"></div>
+      <div><label class="flabel">Mese di ingresso (facoltativo)</label><select class="finput" id="fMese"><option value="">Non so / tutto l'anno</option><option value="1">Gennaio</option><option value="2">Febbraio</option><option value="3">Marzo</option><option value="4">Aprile</option><option value="5">Maggio</option><option value="6">Giugno</option><option value="7">Luglio</option><option value="8">Agosto</option><option value="9">Settembre</option><option value="10">Ottobre</option><option value="11">Novembre</option><option value="12">Dicembre</option></select></div>
       <div><label class="flabel">Data Nascita</label><input class="finput" type="text" id="fDdn" placeholder="gg/mm/aaaa"></div>
       <div class="full"><label class="flabel">Indirizzo</label><input class="finput" type="text" id="fAddr" placeholder="Via..."></div>
     </div>
@@ -861,7 +862,7 @@ function clData(yr){
 }
 function clGroups(yr){
   const d=clData(yr).sort((a,b)=>b.paid-a.paid||(a.m.cognome+a.m.nome).localeCompare(b.m.cognome+b.m.nome));
-  return {full:d.filter(x=>x.paid>=60), part:d.filter(x=>x.paid>0&&x.paid<60), none:d.filter(x=>x.paid===0)};
+  return {full:d.filter(x=>isCompleto(x.m,yr)), part:d.filter(x=>isIncompleto(x.m,yr)), none:d.filter(x=>x.paid===0)};
 }
 function renderClassifica(){
   const sel=document.getElementById('clYear');
@@ -879,8 +880,8 @@ function renderClassifica(){
     `<div class="sc"><div class="sl">Incassato ${yr}</div><div class="sv">${tot}€</div></div>`;
   const row=x=>`<div style="background:#fff;border-radius:12px;padding:10px 14px;margin-bottom:8px;box-shadow:0 1px 4px #0001">
     <div style="display:flex;justify-content:space-between;gap:8px"><b>${x.m.nome} ${x.m.cognome}</b><span style="color:#B8860B;font-size:.85rem">dal ${x.entry}</span></div>
-    <div style="background:#E8EFE9;border-radius:6px;height:8px;margin:7px 0 4px"><div style="width:${Math.min(100,x.paid/60*100)}%;height:8px;border-radius:6px;background:${x.paid>=60?'#1A6B3C':'#B8860B'}"></div></div>
-    <div style="font-size:.85rem;color:#555">${x.paid}€ / 60€</div></div>`;
+    <div style="background:#E8EFE9;border-radius:6px;height:8px;margin:7px 0 4px"><div style="width:${Math.min(100,x.paid/quotaDi(x.m,yr)*100)}%;height:8px;border-radius:6px;background:${isCompleto(x.m,yr)?'#1A6B3C':'#B8860B'}"></div></div>
+    <div style="font-size:.85rem;color:#555">${x.paid}€ / ${quotaDi(x.m,yr)}€${isParziale(x.m,yr)?' · entrata a metà anno':''}</div></div>`;
   const sec=(t,a)=>a.length?`<p class="stitle" style="margin-top:18px">${t} (${a.length})</p>`+a.map(row).join(''):'';
   document.getElementById('clList').innerHTML=sec('✅ Completo',g.full)+sec('🟡 Incompleto',g.part)+sec('⚪ Non ha ancora dato',g.none);
 }
@@ -935,6 +936,7 @@ async function init() {
     setLoader(70);
     members = (m || []).filter(x => x.attivo !== false);
     payments = allPayments;
+    try { const ap = await dbGet("anni_parziali"); parziali = new Set((ap || []).map(x => pk(x.membro_id, x.anno))); } catch (e) {}
     const aC = c || [];
     entrate = aC.filter(x => x.tipo === "entrata");
     uscite = aC.filter(x => x.tipo === "uscita");
@@ -1104,6 +1106,14 @@ function getPays(mid, yr) {
   return res;
 }
 function countPaid(mid, yr) { return getPays(mid, yr).filter(Boolean).length * 5; }
+let parziali = new Set();
+const pk = (mid, yr) => mid + '-' + yr;
+function meseIng(m, yr) { const mm = parseInt(m.mese_ingresso); return (parseInt(m.data_ingresso) === yr && mm >= 1 && mm <= 12) ? mm : 1; }
+function quotaDi(m, yr) { return (13 - meseIng(m, yr)) * 5; }
+function isParziale(m, yr) { return quotaDi(m, yr) < 60 || parziali.has(pk(m.id, yr)); }
+function isCompleto(m, yr) { const t = countPaid(m.id, yr); return t >= quotaDi(m, yr) || (parziali.has(pk(m.id, yr)) && t > 0); }
+function isIncompleto(m, yr) { return !isCompleto(m, yr) && countPaid(m.id, yr) > 0; }
+const lblParz = '<span style="font-size:.72rem;opacity:.85"> · anno parziale</span>';
 
 // ══════════════════════════════════════════════
 // RENDER TABLE
@@ -1113,12 +1123,12 @@ function renderTable() {
   const q = document.getElementById('searchInput').value.toLowerCase();
   const ms = members.filter(m => !m.data_ingresso || parseInt(m.data_ingresso) <= year);
   let fl = ms.filter(m => (m.nome + ' ' + m.cognome).toLowerCase().includes(q));
-  if (activeFilter === 'completo') fl = fl.filter(m => countPaid(m.id, year) >= 60);
-  else if (activeFilter === 'parziale') fl = fl.filter(m => { const t = countPaid(m.id, year); return t > 0 && t < 60; });
+  if (activeFilter === 'completo') fl = fl.filter(m => isCompleto(m, year));
+  else if (activeFilter === 'parziale') fl = fl.filter(m => isIncompleto(m, year));
   else if (activeFilter === 'zero') fl = fl.filter(m => countPaid(m.id, year) === 0);
 
-  const ok = ms.filter(m => countPaid(m.id, year) >= 60).length;
-  const par = ms.filter(m => { const t = countPaid(m.id, year); return t > 0 && t < 60; }).length;
+  const ok = ms.filter(m => isCompleto(m, year)).length;
+  const par = ms.filter(m => isIncompleto(m, year)).length;
   const no = ms.filter(m => countPaid(m.id, year) === 0).length;
   const tot = ms.reduce((a, m) => a + countPaid(m.id, year), 0);
 
@@ -1139,9 +1149,9 @@ function renderTable() {
   fl.forEach(m => {
     const pays = getPays(m.id, year);
     const tot = pays.filter(Boolean).length * 5;
-    const sb = tot >= 60
-      ? `<span class="sbadge s-ok">✅ Completo</span>`
-      : tot > 0 ? `<span class="sbadge s-par">⏳ ${tot}€/60€</span>`
+    const sb = isCompleto(m, year)
+      ? `<span class="sbadge s-ok">✅ Completo${isParziale(m, year) ? ' ½' : ''}</span>`
+      : tot > 0 ? `<span class="sbadge s-par">⏳ ${tot}€/${quotaDi(m, year)}€</span>`
       : `<span class="sbadge s-no">— non pagato</span>`;
     const mc = pays.map((p, i) => `
       <td><button class="mb ${p ? 'paid' : ''}" id="btn-${m.id}-${year}-${i+1}"
@@ -1158,7 +1168,9 @@ function renderTable() {
       <td class="td-tot">${tot}€</td>
       <td>${sb}</td>
       <td>
-        <button class="btn-ghost" onclick="editMember(${m.id})" title="Modifica">✏️</button>
+        <button class="btn-ghost" onclick="markComplete(${m.id},${year})" title="Segna tutto l'anno pagato" style="font-weight:700;color:var(--g2)">60€</button>
+        <button class="btn-ghost" onclick="togglePartial(${m.id},${year})" title="${parziali.has(pk(m.id, year)) ? 'Anno parziale attivo: clicca per toglierlo' : 'Entrata a metà anno: conta come completo'}" style="margin-left:3px;font-weight:700;${parziali.has(pk(m.id, year)) ? 'background:var(--gl);color:var(--g1);border-color:var(--g2)' : ''}">½</button>
+        <button class="btn-ghost" onclick="editMember(${m.id})" title="Modifica" style="margin-left:3px">✏️</button>
         <button class="btn-ghost" onclick="delMember(${m.id})" title="Archivia (i pagamenti restano)" style="margin-left:3px">📦</button>
       </td>
     </tr>`);
@@ -1168,6 +1180,50 @@ function renderTable() {
 // ══════════════════════════════════════════════
 // TOGGLE MONTH — robusto, senza errori duplicati
 // ══════════════════════════════════════════════
+async function togglePartial(mid, yr) {
+  const k = pk(mid, yr), was = parziali.has(k);
+  if (was) parziali.delete(k); else parziali.add(k);
+  renderTable();
+  showSave('saving', '💾 Salvataggio…');
+  try {
+    if (was) await dbDelete("anni_parziali", `membro_id=eq.${mid}&anno=eq.${yr}`);
+    else await dbInsert("anni_parziali", [{ membro_id: mid, anno: yr }]);
+    showSave('saved', '✅ Salvato');
+    toast(was ? "↩️ Anno parziale tolto" : "✅ Entrata a metà anno: conta come completo", 'ok');
+  } catch (e) {
+    if (was) parziali.add(k); else parziali.delete(k);
+    renderTable();
+    showSave('error', '❌ Errore salvataggio');
+    toast("❌ Errore: " + e.message, 'err', 5000);
+  }
+}
+
+async function markComplete(mid, yr) {
+  const missing = [];
+  const mObj = members.find(x => x.id === mid);
+  for (let mese = meseIng(mObj || {}, yr); mese <= 12; mese++) {
+    const p = payments.find(x => x.membro_id === mid && x.anno === yr && x.mese === mese);
+    if (p) { if (!p.pagato) { p.pagato = true; missing.push(mese); } }
+    else { payments.push({ membro_id: mid, anno: yr, mese, pagato: true, id: Date.now() + mese }); missing.push(mese); }
+  }
+  if (!missing.length) { toast("Già tutto pagato per " + yr, 'ok'); return; }
+  renderTable();
+  showSave('saving', '💾 Salvataggio…');
+  try {
+    await Promise.all(missing.map(mese => dbSetPagamento(mid, yr, mese, true)));
+    showSave('saved', '✅ Salvato');
+    toast("✅ Anno " + yr + " completo", 'ok');
+  } catch (e) {
+    try {
+      const fresh = await dbGet("pagamenti", `membro_id=eq.${mid}&anno=eq.${yr}`);
+      payments = payments.filter(x => !(x.membro_id === mid && x.anno === yr)).concat(fresh || []);
+    } catch (e2) {}
+    renderTable();
+    showSave('error', '❌ Errore salvataggio');
+    toast("❌ Errore: " + e.message, 'err', 5000);
+  }
+}
+
 async function toggleMonth(mid, yr, mese, wasPaid) {
   const newVal = !wasPaid;
   const btnId = `btn-${mid}-${yr}-${mese}`;
@@ -1231,9 +1287,9 @@ function openDettaglio(id) {
     const tot = pays.filter(Boolean).length * 5;
     totaleGlobale += tot;
     if (tot === 0) return ''; // nascondi anni senza pagamenti
-    const stato = tot >= 60
-      ? `<span class="sbadge s-ok">✅ Completo</span>`
-      : `<span class="sbadge s-par">⏳ ${tot}€/60€</span>`;
+    const stato = isCompleto(m, yr)
+      ? `<span class="sbadge s-ok">✅ Completo${isParziale(m, yr) ? ' ½' : ''}</span>`
+      : `<span class="sbadge s-par">⏳ ${tot}€/${quotaDi(m, yr)}€</span>`;
     const celle = pays.map((p, i) => `
       <td style="text-align:center;padding:5px 3px">
         <span style="display:inline-flex;width:24px;height:22px;border-radius:4px;align-items:center;justify-content:center;font-size:.75rem;
@@ -1275,7 +1331,7 @@ function openAddMember() {
   editingMemberId = null;
   document.getElementById('modalMembroTitle').textContent = '➕ Nuovo Membro';
   document.getElementById('membroSaveBtn').textContent = 'Salva';
-  ['fNome','fCognome','fTel','fDdn','fAddr','fAnno'].forEach(id => document.getElementById(id).value = '');
+  ['fNome','fCognome','fTel','fDdn','fAddr','fAnno','fMese'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('modalMembro').classList.add('open');
 }
 function editMember(id) {
@@ -1289,6 +1345,7 @@ function editMember(id) {
   document.getElementById('fTel').value = m.telefono || '';
   document.getElementById('fDdn').value = m.ddn || '';
   document.getElementById('fAnno').value = m.data_ingresso || '';
+  document.getElementById('fMese').value = m.mese_ingresso || '';
   document.getElementById('fAddr').value = m.indirizzo || '';
   document.getElementById('modalMembro').classList.add('open');
 }
@@ -1301,7 +1358,8 @@ async function saveMember() {
     telefono: document.getElementById('fTel').value.trim(),
     indirizzo: document.getElementById('fAddr').value.trim(),
     ddn: document.getElementById('fDdn').value.trim(),
-    data_ingresso: document.getElementById('fAnno').value.trim() || null
+    data_ingresso: document.getElementById('fAnno').value.trim() || null,
+    mese_ingresso: parseInt(document.getElementById('fMese').value) || null
   };
   try {
     if (editingMemberId) {
@@ -1626,8 +1684,8 @@ function openDettaglio(id) {
     }
     totaleComplessivo += tot;
     const bg = ri % 2 === 0 ? 'var(--white)' : 'var(--gs)';
-    const stato = tot >= 60
-      ? `<span class="sbadge s-ok">✅ Completo</span>`
+    const stato = isCompleto(m, yr)
+      ? `<span class="sbadge s-ok">✅ Completo${isParziale(m, yr) ? ' ½' : ''}</span>`
       : tot > 0 ? `<span class="sbadge s-par">⏳ ${tot}€</span>`
       : `<span class="sbadge s-no">—</span>`;
     const celle = pays.map(p =>
@@ -1666,7 +1724,7 @@ function exportCSV() {
     const pays = getPays(m.id, year);
     const tot = pays.filter(Boolean).length * 5;
     return [m.nome, m.cognome, m.telefono, ...pays.map(p => p ? 5 : 0), tot,
-      tot >= 60 ? 'Completo' : tot > 0 ? 'Parziale' : 'Non pagato'].join(';');
+      isCompleto(m, year) ? (isParziale(m, year) ? 'Completo (anno parziale)' : 'Completo') : tot > 0 ? 'Parziale' : 'Non pagato'].join(';');
   });
   const blob = new Blob(['\uFEFF' + [header, ...rows].join('\n')], { type: 'text/csv;charset=utf-8' });
   const a = document.createElement('a');
