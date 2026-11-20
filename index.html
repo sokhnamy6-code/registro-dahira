@@ -936,7 +936,7 @@ async function init() {
     setLoader(70);
     members = (m || []).filter(x => x.attivo !== false);
     payments = allPayments;
-    try { const ap = await dbGet("anni_parziali"); parziali = new Set((ap || []).map(x => pk(x.membro_id, x.anno))); } catch (e) {}
+    try { const ap = await sbFetch("anni_parziali?select=membro_id,anno"); parziali = new Set((ap || []).map(x => pk(x.membro_id, x.anno))); } catch (e) {}
     const aC = c || [];
     entrate = aC.filter(x => x.tipo === "entrata");
     uscite = aC.filter(x => x.tipo === "uscita");
